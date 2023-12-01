@@ -9,6 +9,7 @@ const authOptions = {
             clientSecret: process.env.GOOGLE_OAUTH_SECRET || '',
         }),
     ],
+
     pages: {
         signIn: '/auth/signin',
     },
