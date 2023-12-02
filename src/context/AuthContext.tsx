@@ -1,4 +1,5 @@
 'use client';
+
 import { SessionProvider } from 'next-auth/react';
 
 type Props = {
@@ -6,6 +7,7 @@ type Props = {
 };
 
 export default function AuthContext({ children }: Props) {
+  
   return (
     <SessionProvider>{children}</SessionProvider>
   );
