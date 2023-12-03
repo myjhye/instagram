@@ -13,7 +13,7 @@ export default function Avatar({
     return (
         <div className={getContainerStyle(size, highlight)}>
             <img
-                className={`bg-white rounded-full ${getImageSizeStyle(size)}`}
+                className={`bg-white object-cover rounded-full ${getImageSizeStyle(size)}`}
                 alt='user profile' 
                 src={image ?? undefined} 
             />
