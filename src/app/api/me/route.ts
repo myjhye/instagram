@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
+import { getUserByUsername } from "@/service/user";
 
 export async function GET(request: Request) {
 
@@ -11,5 +12,6 @@ export async function GET(request: Request) {
         return new Response('authentication error: ', { status: 401 });
     }
 
-    return NextResponse.json('hello next js');
+    return getUserByUsername(user.username)
+        .then(data => NextResponse.json(data));
 }
