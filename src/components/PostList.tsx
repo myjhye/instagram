@@ -10,6 +10,8 @@ export default function PostList() {
         isLoading: loading 
     } = useSWR<SimplePost[]>('/api/posts')
 
+    console.log(posts);
+
     return (
         <ul>
             {posts && posts.map((post) => (
