@@ -4,7 +4,7 @@ export type Comment = {
     image: string;
 };
 
-export type SimplePost = Omit<FullPost, 'commnets'> & {
+export type SimplePost = Omit<FullPost, 'comments'> & {
     comments: number;
 }
 
