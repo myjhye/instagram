@@ -51,14 +51,14 @@ export async function getPost(id: string) {
 }
 
 
-export async function getPostsOf(username: string) {
-    
-    return client.fetch(
-        `*[_type == "post" && author->username == "${username}"]
-        | order(_createdAt desc) {
+export async function getPostsOf(username: string, start: number = 0, limit: number = 10) {
+    const query = `
+        *[_type == "post" && author->username == "${username}"]
+        | order(_createdAt desc) [${start}...${start + limit}] {
           ${simplePostProjection}  
-        }`
-    ).then(mapPosts);
+        }`;
+
+    return client.fetch(query).then(mapPosts);
 }
 
 
