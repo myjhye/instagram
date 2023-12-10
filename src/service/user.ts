@@ -37,7 +37,6 @@ export async function getUserByUsername(username: string) {
   )
 }
 
-
 export async function searchUsers(keyword?: string) {
 
   const query = keyword 
@@ -62,31 +61,22 @@ export async function searchUsers(keyword?: string) {
 
 
 export async function getUserForProfile(username: string) {
+  
   return client
     .fetch(
-      `*[_type == "user" && username == "${username}"][0] {
-        ...,
-        "id": _id,
-        "following": count(following),
-        "followers": count(followers),
-        "posts": count(*[_type == "post" && author->username == "${username}"])
-      }`
+      `*[_type == "user" && username == "${username}"][0]{
+      ...,
+      "id":_id,
+      "following": count(following),
+      "followers": count(followers),
+      "posts": count(*[_type=="post" && author->username == "${username}"])
+    }
+    `
     )
-    .then(user => {
-      if (!user) {
-        return {
-          id: null,
-          following: 0,
-          followers: 0,
-          posts: 0,
-        };
-      }
-
-      return {
-        ...user,
-        following: user.following ?? 0,
-        followers: user.followers ?? 0,
-        posts: user.posts ?? 0,
-      };
-    });
+    .then((user) => ({
+      ...user,
+      following: user.following ?? 0,
+      followers: user.followers ?? 0,
+      posts: user.posts ?? 0,
+    }));
 }
