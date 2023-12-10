@@ -9,6 +9,7 @@ import ModalPortal from "./ui/ModalPortal";
 import PostModal from "./PostModal";
 import PostDetail from "./PostDetail";
 import PostUserAvatar from "./PostUserAvatar";
+import Link from "next/link";
 
 type Props = {
     post: SimplePost;
@@ -22,10 +23,12 @@ export default function PostListCard({post, priority = false }: Props) {
 
     return  (
         <article className="rounded-lg shadow-md border-gray-200">
-            <PostUserAvatar 
-                image={userImage} 
-                username={username} 
-            />
+           <Link href={`/user/${username}`}>
+                <PostUserAvatar 
+                    image={userImage} 
+                    username={username} 
+                />
+            </Link>
             <Image
                 className="w-full object-cover ascpect-square" 
                 src={image} 
