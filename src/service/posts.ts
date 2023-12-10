@@ -1,5 +1,5 @@
-import { SimplePost } from "@/model/post";
-import { client, urlFor } from "./sanity";
+import { SimplePost } from './../model/post';
+import { client, urlFor } from './sanity';
 
 const simplePostProjection = `
     ...,
@@ -9,85 +9,72 @@ const simplePostProjection = `
     "likes": likes[]->username,
     "text": comments[0].comment,
     "comments": count(comments),
-    "id": _id,
-    "createdAt": _createdAt
+    "id":_id,
+    "createdAt":_createdAt
 `;
 
-
 export async function getFollowingPostsOf(username: string) {
-    const query = `
-        *[_type == "post" && (author->username == "${username}" 
-            || author._ref in *[_type == "user" && username == "${username}"].following[]._ref)]
-        | order(_createdAt desc){
-            ${simplePostProjection}
-        }`;
-
-    return client
-        .fetch(query)
-        .then(mapPosts);
+  return client
+    .fetch(
+      `*[_type =="post" && author->username == "${username}"
+          || author._ref in *[_type == "user" && username == "${username}"].following[]._ref]
+          | order(_createdAt desc){
+          ${simplePostProjection}
+        }`
+    )
+    .then(mapPosts);
 }
 
 export async function getPost(id: string) {
-    const query = `
-        *[_type == "post" && _id == "${id}"][0]{
-            ...,
-            "username": author->username,
-            "userImage": author->image,
-            "image": photo,
-            "likes": likes[]->username,
-            comments[]{
-                comment,
-                "username": author->username,
-                "image": author->image
-            },
-            "id": _id,
-            "createdAt": _createdAt
-        }`;
-
-    return client.fetch(query).then((post) => ({
-        ...post,
-        image: urlFor(post.image)
-    }));
+  return client
+    .fetch(
+      `*[_type == "post" && _id == "${id}"][0]{
+      ...,
+      "username": author->username,
+      "userImage": author->image,
+      "image": photo,
+      "likes": likes[]->username,
+      comments[]{comment, "username": author->username, "image": author->image},
+      "id":_id,
+      "createdAt":_creatdAt
+    }`
+    )
+    .then((post) => ({ ...post, image: urlFor(post.image) }));
 }
 
-
-export async function getPostsOf(username: string, start: number = 0, limit: number = 10) {
-    const query = `
-        *[_type == "post" && author->username == "${username}"]
-        | order(_createdAt desc) [${start}...${start + limit}] {
-          ${simplePostProjection}  
-        }`;
-
-    return client.fetch(query).then(mapPosts);
+export async function getPostsOf(username: string) {
+  return client
+    .fetch(
+      `*[_type == "post" && author->username == "${username}"]
+      | order(_createdAt desc){
+        ${simplePostProjection}
+      }`
+    )
+    .then(mapPosts);
 }
-
-
 export async function getLikedPostsOf(username: string) {
-    
-    return client.fetch(
-        `*[_type == "post" && "${username}" in likes[]->username]
-        | order(_createdAt desc) {
-          ${simplePostProjection}  
-        }`
-    ).then(mapPosts);
+  return client
+    .fetch(
+      `*[_type == "post" && "${username}" in likes[]->username]
+      | order(_createdAt desc){
+        ${simplePostProjection}
+      }`
+    )
+    .then(mapPosts);
 }
-
-
 export async function getSavedPostsOf(username: string) {
-    
-    return client.fetch(
-        `*[_type == "post" && _id in *[_type=="user" && username=="${username}].bookmarks[]._ref]
-        | order(_createdAt desc) {
-          ${simplePostProjection}  
-        }`
-    ).then(mapPosts);
+  return client
+    .fetch(
+      `*[_type == "post" && _id in *[_type=="user" && username=="${username}"].bookmarks[]._ref]
+      | order(_createdAt desc){
+        ${simplePostProjection}
+      }`
+    )
+    .then(mapPosts);
 }
-
-
 function mapPosts(posts: SimplePost[]) {
-
-    return posts.map((post: SimplePost) => ({
-        ...post,
-        image: urlFor(post.image),
-    }))
+  return posts.map((post: SimplePost) => ({
+    ...post,
+    image: urlFor(post.image),
+  }));
 }
