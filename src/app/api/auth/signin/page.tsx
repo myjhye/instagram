@@ -3,8 +3,18 @@ import { getServerSession } from "next-auth"
 import { getProviders } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 import { authOptions } from '../[...nextauth]/route';
+import { Metadata } from 'next';
 
-type Props = { searchParams: { callbackUrl: string }};
+export const metadata: Metadata = {
+    title: '회원가입',
+    description: '회원가입 또는 로그인',
+}
+
+type Props = { 
+    searchParams: { 
+        callbackUrl: string 
+    }
+};
 
 export default async function SignPage({
     searchParams: { callbackUrl },
