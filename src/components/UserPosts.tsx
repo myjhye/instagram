@@ -28,14 +28,15 @@ export default function UserPosts({user}: Props) {
 
     return (
         <section>
-            <ul>
+            <ul className="flex justify-center uppercase">
                 {tabs.map((tab) => (
-                    <li 
+                    <li
+                        className={`mx-12 p-4 cursor-pointer border-black ${tab.type === query && 'font-bold border-t'}`}
                         key={tab.type}
                         onClick={() => setQuery(tab.type)}
                     >
-                        <button>{tab.icons}</button>
-                        <span>{tab.type}</span>
+                        <button className="scale-150 md:scale-100">{tab.icons}</button>
+                        <span className="hidden md:inline ml-1">{tab.type}</span>
                     </li>
                 ))}
             </ul>
