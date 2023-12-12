@@ -44,6 +44,7 @@ export default function Navbar() {
             </Link>
             <nav>
                 <ul className="flex gap-4 items-center p-4">
+                    {/* 메뉴 항목들을 매핑하여 렌더링 */}
                     {
                         menu.map((item) => (
                             <li key={item.href}>
@@ -54,6 +55,7 @@ export default function Navbar() {
                             </li>
                         ))
                     }
+                    {/* 사용자가 로그인한 경우 -> 사용자의 프로필 아바타 표시 */}
                     {user && (
                         <li>
                             <Link href={`/user/${user.username}` }>
@@ -65,6 +67,7 @@ export default function Navbar() {
                             </Link>
                         </li>
                     )}
+                    {/* 사용자가 로그인한 경우 'sign out' 버튼 , 로그아웃 한 경우 'sign in' 버튼 표시 */}
                     <li>
                         {session ? (
                             <ColorButton text='Sign out' onClick={() => signOut()} />

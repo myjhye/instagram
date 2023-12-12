@@ -27,11 +27,12 @@ export default {
             title: 'Following',
             name: 'following',
             type: 'array',
+            // 배열 요소가 어떤 형식을 가져야 하는지 정의
             of: [
                 {
-                    // 배열의 각 요소가 -> reference 데이터 유형
+                    // 배열의 각 요소가 -> reference 데이터 유형 -> 배열 요소가 다른 문서를 참조
                     type: 'reference',
-                    // 참조하는 데이터 유형은 -> user
+                    // reference가 참조하는 데이터 유형은 -> user
                     to: [{ type: 'user' }]
                 }
             ],
