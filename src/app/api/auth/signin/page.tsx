@@ -16,12 +16,9 @@ type Props = {
     }
 };
 
-export default async function SignPage({
-    searchParams: { callbackUrl },
-}: Props) {
+export default async function SignPage({searchParams: { callbackUrl } }: Props) {
 
     const session = await getServerSession(authOptions);
-
     if (session) {
         redirect('/');
     }

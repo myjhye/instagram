@@ -34,6 +34,8 @@ export default function Navbar() {
 
     // 현재 페이지의 경로 가져오기
     const pathName = usePathname();
+
+    // 로그인 여부 확인
     const { data: session } = useSession();
     const user = session?.user;
 
