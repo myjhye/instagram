@@ -14,7 +14,9 @@ export default function PostUserAvatar({image, username}: Props){
                 size='medium'
                 highlight 
             />
-            <span className="text-gray-900 font-bold ml-2 font-sans text-base">{username}</span>
+            <span className="text-gray-900 font-bold ml-2 font-sans text-base">
+                {username}
+            </span>
         </div>
     )
 }

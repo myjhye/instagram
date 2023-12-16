@@ -12,8 +12,7 @@ type Props = {
 
 export default function PostDetail({post}: Props) {
 
-    const {id, userImage, username, image, createdAt, likes} = post;
-    const { data } = userSWR<FullPost>(`/api/posts/${id}`);
+    const { data } = userSWR<FullPost>(`/api/posts/${post.id}`);
     const comments = data?.comments;
 
     return (
@@ -21,8 +20,8 @@ export default function PostDetail({post}: Props) {
             <div className="relative basis-3/5">
                 <Image
                     className="object-cover"
-                    src={image}
-                    alt={`photo by ${username}`}
+                    src={post.image}
+                    alt={`photo by ${post.username}`}
                     priority
                     fill 
                     sizes='650px'
@@ -30,8 +29,8 @@ export default function PostDetail({post}: Props) {
             </div>
             <div className="w-full basis-2/5 flex flex-col">
                 <PostUserAvatar 
-                    image={userImage}
-                    username={username}
+                    image={post.userImage}
+                    username={post.username}
                 />
                 <ul className="border-t border-gray-200 h-full overflow-y-auto p-4 mb-1">
                     {comments && comments.map((comments, index) => (
@@ -42,7 +41,7 @@ export default function PostDetail({post}: Props) {
                             <Avatar 
                                 image={comments.image}
                                 size='small'
-                                highlight={comments.username === username} 
+                                highlight={comments.username === post.username} 
                             />
                             <div className="ml-2">
                                 <span className="font-bold mr-2">{comments.username}</span>
@@ -52,9 +51,9 @@ export default function PostDetail({post}: Props) {
                     ))}
                 </ul>
                 <ActionBar 
-                    likes={likes} 
-                    username={username} 
-                    createdAt={createdAt} 
+                    likes={post.likes} 
+                    username={post.username} 
+                    createdAt={post.createdAt} 
                 />
                 <CommentForm />
             </div>

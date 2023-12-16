@@ -15,5 +15,8 @@ const builder = ImageUrlBuilder(client);
 
 export function urlFor(source: SanityImageSource) {
   // builder -> 이미지 url 생성 -> 이미지 width 800 설정 -> url 반환
-  return builder.image(source).width(800).url();
+  return builder
+    .image(source)
+    .width(800)
+    .url();
 }

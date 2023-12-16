@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
-import { getUserByUsername } from "@/service/user";
 import { getFollowingPostsOf } from "@/service/posts";
 
 export async function GET() {
