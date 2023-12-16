@@ -45,10 +45,18 @@ export async function getUserByUsername(username: string) {
 
 // 사용자 검색
 export async function searchUsers(keyword?: string) {
-  // Prepare the query for both name and username
+  
   const query = keyword
-    ? `*[_type == "user" && (name match "${keyword}*") || (username match "${keyword}*")]{..., "following": count(following), "followers": count(followers)}`
-    : `*[_type == "user"]{..., "following": count(following), "followers": count(followers)}`;
+    ? `*[_type == "user" && (name match "${keyword}*") || (username match "${keyword}*")]{
+      ..., 
+      "following": count(following), 
+      "followers": count(followers)
+    }`
+    : `*[_type == "user"]{
+      ..., 
+      "following": count(following), 
+      "followers": count(followers)
+    }`;
 
   // sanity client 사용해 데이터 가져오기
   return client.fetch(query).then((users) =>
