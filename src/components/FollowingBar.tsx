@@ -9,13 +9,18 @@ import ScrollableBar from './ui/ScrollableBar';
 
 export default function FollowingBar() {
 
-    const { data, isLoading: loading, error } = useSWR<HomeUser>('/api/me');
-    //const users = data?.following;
+    // useSWR 훅으로 -> /api/me 엔드포인트에서 -> 데이터를 비동기적으로 가져오기 
+    const { 
+        data, 
+        isLoading: loading, 
+        error 
+    // HomeUser -> 데이터 구조 정의
+    } = useSWR<HomeUser>('/api/me');
+
+    
+    // 사용자의 팔로잉 목록 가져오기
     const users = data?.following && [
         ...data?.following, 
-        ...data?.following, 
-        ...data?.following, 
-        ...data?.following
     ];
 
     return (

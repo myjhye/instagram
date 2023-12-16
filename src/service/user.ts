@@ -28,6 +28,7 @@ export async function addUser(user: OAuthUser) {
     });
 }
 
+// 사용자 이름을 기반으로 사용자 정보 가져오기
 export async function getUserByUsername(username: string) {
 
   return client.fetch(
