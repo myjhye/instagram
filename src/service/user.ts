@@ -28,7 +28,7 @@ export async function addUser(user: OAuthUser) {
     });
 }
 
-// 사용자 이름을 기반으로 사용자 정보 가져오기
+// 사용자 정보 가져오기
 export async function getUserByUsername(username: string) {
 
   return client.fetch(
@@ -42,12 +42,16 @@ export async function getUserByUsername(username: string) {
   )
 }
 
+
+// 사용자 검색
 export async function searchUsers(keyword?: string) {
 
+  // 검색어(keyword)가 주어진 경우 -> 검색 조건 설정
   const query = keyword 
     ? `&& (name match "${keyword}") || (username match "${keyword}")`
     : '';
 
+  // sanity client 사용해 데이터 가져오기
   return client.fetch(
     `*[_type == "user" ${query}]{
       ...,

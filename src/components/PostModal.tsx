@@ -1,11 +1,14 @@
 import CloseIcon from "./ui/icons/CloseIncon";
 
 type Props = {
+    // 자식 요소 (내용)을 받을 react 노드
     children: React.ReactNode;
+    // 모달을 닫을 콜백 함수
     onClose: () => void;
 }
 
-export default function PostModal({ onClose, children }: Props) {
+// 포스트 모달
+export default function PostModal({ children, onClose }: Props) {
 
     return (
         <section
