@@ -1,18 +1,22 @@
 import { SearchUser } from '@/model/user';
 import { client } from './sanity';
 
+// OAuthUser 타입 정의 -> 사용자 정보
 export type OAuthUser = {
   id: string;
   email: string;
   name: string;
   username: string;
+  // 이미지 url 선택적으로 가져오기
   image?: string | null;
 };
 
 export async function addUser(user: OAuthUser) {
 
+    // client.createIfNotExists -> 사용자 생성, 이미 존재하면 업데이트
     return client.createIfNotExists({
         _id: user.id,
+        // 사용자 유형
         _type: 'user',
         username: user.username,
         email: user.email,

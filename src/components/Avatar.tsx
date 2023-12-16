@@ -1,8 +1,11 @@
 type AvatarSize = 'small' | 'medium' | 'large' | 'xlarge';
 
 type Props = {
+    // 아바타 이미지 url
     image?: string | null
+    // 아바타 사이즈 -> 선택적, 기본 값은 large
     size?: AvatarSize;
+    // 아바타 하이라이트 여부 -> 선택적, 기본 값은 false
     highlight?: boolean;
 };
 
@@ -29,7 +32,9 @@ function getContainerStyle(size: AvatarSize, highlight: boolean): string {
     const highlightStyle = highlight
         ? 'bg-gradient-to-bl from-fuchsia-600 via-rose-500 to-amber-300' 
         : '';
-    const { container } = getImageSizeStyle(size); 
+    // getImageSizeStyle 함수 호출 -> 아바타 크기에 따른 스타일 가져오기
+    const { container } = getImageSizeStyle(size);
+    // 기본 스타일, 하이라이트 스타일, 이미지 사이즈 스타일을 조합 -> 최종 컨테이너 스타일 반환 
     return `${baseStyle} ${highlightStyle} ${container}`
 }
 
@@ -38,8 +43,10 @@ type ImageSizeStyle = {
     image: string;
 }
 
+// 아바타 사이즈에 따른 이미지, 컨테이너 스타일 반환
 function getImageSizeStyle(size: AvatarSize): ImageSizeStyle {
 
+    // size 매개변수에 값에 따라 다른 스타일 반환
     switch(size) {
         case 'small' : 
             return { container: 'w-9 h-9', image: 'w-[34px] h-[34px] p-[0.1rem]'};

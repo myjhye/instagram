@@ -19,7 +19,7 @@ type Props = {
 
 export default async function SignPage({searchParams: { callbackUrl } }: Props) {
 
-    // 서버 세션을 가져와 현재 로그인된 사용자의 세션 확인
+    // 현재 로그인된 사용자의 세션 확인 -> authOptions 전달 -> 사용자 인증, 세션 관리 설정 제공 -> 사용자 세션을 올바르게 확인
     const session = await getServerSession(authOptions);
 
     // 사용자가 로그인 되어 있으면 홈으로 리다이렉트

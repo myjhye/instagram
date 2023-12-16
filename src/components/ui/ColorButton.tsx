@@ -1,5 +1,7 @@
 type Props = {
+    // 버튼에 표시할 텍스트
     text: string;
+    // 버튼 클릭 시 실행하는 함수
     onClick: () => void;
     // size를 optional하게 변경
     size?: 'small' | 'big'; 
