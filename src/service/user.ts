@@ -45,21 +45,13 @@ export async function getUserByUsername(username: string) {
 
 // 사용자 검색
 export async function searchUsers(keyword?: string) {
-
-  // 검색어(keyword)가 주어진 경우 -> 검색 조건 설정
-  const query = keyword 
-    ? `&& (name match "${keyword}") || (username match "${keyword}")`
-    : '';
+  // Prepare the query for both name and username
+  const query = keyword
+    ? `*[_type == "user" && (name match "${keyword}*") || (username match "${keyword}*")]{..., "following": count(following), "followers": count(followers)}`
+    : `*[_type == "user"]{..., "following": count(following), "followers": count(followers)}`;
 
   // sanity client 사용해 데이터 가져오기
-  return client.fetch(
-    `*[_type == "user" ${query}]{
-      ...,
-      "following": count(following),
-      "followers": count(followers),
-    }
-    `
-  ).then((users) => 
+  return client.fetch(query).then((users) =>
     users.map((user: SearchUser) => ({
       ...user,
       following: user.following ?? 0,
@@ -67,6 +59,7 @@ export async function searchUsers(keyword?: string) {
     }))
   );
 }
+
 
 
 export async function getUserForProfile(username: string) {
