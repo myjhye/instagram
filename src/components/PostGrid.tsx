@@ -4,7 +4,9 @@ import { SimplePost } from '@/model/post';
 import PostGridCard from './PostGridCard';
 
 type Props = {
+    // 사용자명
     username: string;
+    // 포스트 종류 -> 쿼리 문자열
     query: string;
 }
 
@@ -14,6 +16,7 @@ export default function PostGrid({username, query}: Props) {
         data: posts,
         isLoading,
         error,
+    // 사용자의 포스트 데이터 가져오기
     } = useSWR<SimplePost[]>(`/api/users/${username}/${query}`);
 
     return (

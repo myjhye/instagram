@@ -16,6 +16,8 @@ export default function PostDetail({post}: Props) {
     const { data } = userSWR<FullPost>(`/api/posts/${post.id}`);
     // 포스트 댓글
     const comments = data?.comments;
+    
+    console.log(post);
 
     return (
         <section className="flex w-full h-full">

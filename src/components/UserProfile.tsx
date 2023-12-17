@@ -16,6 +16,7 @@ followers
 posts
 */
 
+
 export default function UserProfile({user}: Props) {
 
     const info = [

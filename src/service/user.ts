@@ -28,7 +28,7 @@ export async function addUser(user: OAuthUser) {
     });
 }
 
-// 사용자 정보 가져오기
+// 사용자 정보 가져오기 -> 팔로우 버튼 컴포넌트 (팔로우 여부에 따라 버튼 ui 변경)
 export async function getUserByUsername(username: string) {
 
   return client.fetch(
@@ -43,7 +43,7 @@ export async function getUserByUsername(username: string) {
 }
 
 
-// 사용자 검색
+// 사용자 검색 -> 사용자 검색 페이지
 export async function searchUsers(keyword?: string) {
   
   const query = keyword
@@ -70,8 +70,10 @@ export async function searchUsers(keyword?: string) {
 
 
 
+// 사용자 프로필 정보 가져오기 -> 사용자 프로필 페이지
 export async function getUserForProfile(username: string) {
   
+  // client를 사용해 sanity cms에서 사용자 정보 검색
   return client
     .fetch(
       `*[_type == "user" && username == "${username}"][0]{
@@ -83,10 +85,14 @@ export async function getUserForProfile(username: string) {
     }
     `
     )
+    // 가져온 사용자 정보 가공
     .then((user) => ({
       ...user,
+      // 팔로잉 수 가져오기 -> 없으면 기본값 0
       following: user.following ?? 0,
+      // 팔로워 수 가져오기 -> 없으면 기본값 0
       followers: user.followers ?? 0,
+      // 게시물 수 가져오기 -> 없으면 기본값 0
       posts: user.posts ?? 0,
     }));
 }
