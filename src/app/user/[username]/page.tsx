@@ -6,13 +6,16 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 
 type Props = {
+    // params -> url 파라미터 중 사용자명 (username) 포함
     params: {
         username: string
     };
 }
 
+// 사용자 정보 (getUserForProfile) 캐싱 -> 데이터 결과를 캐시에 저장 -> 동일한 사용자 정보 여러 번 요청 시 캐시된 데이터를 활용해 중복 요청 방지 
 const getUser = cache(async (username: string) => getUserForProfile(username));
 
+// 사용자 프로필 컴포넌트
 export default async function UserPage({params: {username}}: Props) {
 
     const user = await getUser(username);
@@ -23,12 +26,15 @@ export default async function UserPage({params: {username}}: Props) {
 
     return (
         <section className="w-full">
+            {/* 사용자 프로필 */}
             <UserProfile user={user} />
+            {/* 사용자 포스트 */}
             <UserPosts user={user} />
         </section>
     )
 }
 
+// 메타데이터 생성
 export async function generateMetadata({ params: { username }}: Props): Promise<Metadata> {
 
     const user = await getUser(username);

@@ -6,13 +6,22 @@ type Props = {
     user: ProfileUser;
 };
 
+/*
+**ProfileUser
+name
+username
+email
+following
+followers
+posts
+*/
+
 export default function UserProfile({user}: Props) {
 
     const info = [
         { title: '게시물', data: user.posts },
         { title: '팔로워', data: user.followers },
         { title: '팔로우', data: user.following },
-
     ]
 
     return (
