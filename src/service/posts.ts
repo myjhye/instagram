@@ -49,7 +49,11 @@ export async function getPost(id: string) {
     }));
 }
 
+// 사용자 게시물 가져오기
+// username -> 게시물을 가져올 사용자명 (username)
 export async function getPostsOf(username: string) {
+
+  // client를 사용해 sanity cms에서 게시물 데이터 가져오기
   return client
     .fetch(
       `*[_type == "post" && author->username == "${username}"]
@@ -57,8 +61,12 @@ export async function getPostsOf(username: string) {
         ${simplePostProjection}
       }`
     )
+    // 가져온 데이터를 가공하는 함수인 mapPosts를 호출해 반환
     .then(mapPosts);
 }
+
+// 사용자가 좋아요 (like)를 누른 게시물 가져오기
+// username -> 게시물을 좋아요한 사용자명 (username)
 export async function getLikedPostsOf(username: string) {
   return client
     .fetch(
@@ -67,8 +75,12 @@ export async function getLikedPostsOf(username: string) {
         ${simplePostProjection}
       }`
     )
+    // 가져온 데이터를 가공하는 함수인 mapPosts를 호출해 반환
     .then(mapPosts);
 }
+
+// 사용자가 저장한 게시물 가져오기
+// username -> 게시물을 저장한 사용자명 (username)
 export async function getSavedPostsOf(username: string) {
   return client
     .fetch(
@@ -77,11 +89,18 @@ export async function getSavedPostsOf(username: string) {
         ${simplePostProjection}
       }`
     )
+    // 가져온 데이터를 가공하는 함수인 mapPosts를 호출해 반환
     .then(mapPosts);
 }
+
+// 포스트 데이터를 가공해 이미지 url 변환하기
+// posts -> 가공할 포스트 데이터 배열
+// 반환 값 -> 이미지 url이 추가된 포스트 데이터 배열 반환
 function mapPosts(posts: SimplePost[]) {
   return posts.map((post: SimplePost) => ({
+    // 기존 포스트 데이터를 유지한 채 복사
     ...post,
+    // 이미지 url을 urlFor 함수를 사용해 반환해 추가
     image: urlFor(post.image),
   }));
 }
