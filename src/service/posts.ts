@@ -100,7 +100,30 @@ function mapPosts(posts: SimplePost[]) {
   return posts.map((post: SimplePost) => ({
     // 기존 포스트 데이터를 유지한 채 복사
     ...post,
+    likes: post.likes ?? [],
     // 이미지 url을 urlFor 함수를 사용해 반환해 추가
     image: urlFor(post.image),
   }));
+}
+
+
+// 포스트 좋아요
+export async function likePost(postId: string, userId: string) {
+
+  return client.patch(postId)
+    .setIfMissing({likes: []})
+    .append('likes', [
+      {
+        _ref: userId,
+        _type: 'reference'
+      }
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+// 포스트 싫어요
+export async function dislikePost(postId: string, userId: string) {
+  return client.patch(postId)
+    .unset([`likes[_ref=="${userId}"]`])
+    .commit();
 }

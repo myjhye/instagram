@@ -35,16 +35,28 @@ const authOptions: NextAuthOptions = {
         
         //** 세션 관리 -> 콜백 함수
         async session(params) {
-            const { session } = params;
-            if (session) {
+            const { session, token } = params;
+            const user = session?.user;
+
+            if (user) {
                 // 세션에 username 추가
                 session.user = {
                     ...session.user,
                     username: session.user.email?.split('@')[0] || '',
+                    id: token.id as string,
                 };
             }
             return session;
         },
+
+        async jwt(params) {
+            const { token, user } = params;
+
+            if (user) {
+                token.id = user.id;
+            }
+            return token;
+        }
         
     },
 

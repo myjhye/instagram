@@ -44,12 +44,7 @@ export default function PostListCard({post, priority = false }: Props) {
             />
 
             {/* 액션 바 -> 좋아요 수, 사용자 이름, 포스트 내용, 생성 날짜 */}
-            <ActionBar
-                likes={post.likes}
-                username={post.username}
-                text={post.text}
-                createdAt={post.createdAt}
-            />
+            <ActionBar post={post} />
 
             {/* 댓글 입력 폼 */}
             <CommentForm />

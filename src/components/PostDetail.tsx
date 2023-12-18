@@ -59,11 +59,7 @@ export default function PostDetail({post}: Props) {
                     ))}
                 </ul>
                 {/* 포스트 좋아요, 작성자, 작성일 */}
-                <ActionBar 
-                    likes={post.likes} 
-                    username={post.username} 
-                    createdAt={post.createdAt} 
-                />
+                <ActionBar post={post} />
                 {/* 댓글 작성 폼 */}
                 <CommentForm />
             </div>
