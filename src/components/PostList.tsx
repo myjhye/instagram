@@ -1,21 +1,18 @@
 'use client'
-
-import { SimplePost } from '@/model/post';
-import useSWR from 'swr';
 import PostListCard from './PostListCard';
 import GridSpinner from './ui/GridSpinner';
+import usePosts from '@/hooks/posts';
 
 export default function PostList() {
 
     const { 
-        data: posts, 
-        isLoading: loading
-    // 포스트 데이터 가져오기 -> swr 사용 
-    } = useSWR<SimplePost[]>('/api/posts')
+        posts, 
+        isLoading
+    } = usePosts();
 
     return (
         <section>
-            {loading && (
+            {isLoading && (
                 // 데이터가 로딩 중인 동안 스피너 표시
                 <div className='text-center mt-32'>
                     <GridSpinner color='red' />
