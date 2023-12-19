@@ -44,7 +44,20 @@ export default function PostListCard({post, priority = false }: Props) {
             />
 
             {/* 액션 바 -> 좋아요 수, 사용자 이름, 포스트 내용, 생성 날짜 */}
-            <ActionBar post={post} />
+            <ActionBar post={post}>
+                <p>
+                    <span className="font-bold mr-1">{post.username}</span>
+                    <span>{post.text}</span>
+                </p>
+                {post.comments > 1 && (
+                    <button
+                        className="font-bold my-2 text-gray-500" 
+                        onClick={() => setOpenModal(true)}
+                    >
+                        {`댓글 ${post.comments}개 모두 보기`}
+                    </button>
+                )}
+            </ActionBar>
 
             {/* 댓글 입력 폼 */}
             <CommentForm />

@@ -8,8 +8,9 @@ export type Comment = {
     image: string;
 };
 
-// FullPost에서 comments 필드 제외한 내용 포함
-export type SimplePost = Omit<FullPost, 'comments'>;
+export type SimplePost = Omit<FullPost, 'comments'> & {
+    comments: number;
+  };
 
 
 // 포스트의 전체 정보
