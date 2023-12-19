@@ -1,27 +1,24 @@
 'use client';
 
-import { HomeUser } from '@/model/user';
 import Link from 'next/link';
 import { PropagateLoader } from 'react-spinners';
-import useSWR from 'swr';
 import Avatar from './Avatar';
 import ScrollableBar from './ui/ScrollableBar';
+import useMe from '@/hooks/me';
 
 export default function FollowingBar() {
 
     // useSWR 훅으로 -> /api/me 엔드포인트에서 -> 데이터를 비동기적으로 가져오기 
     const { 
-        data, 
+        user, 
         isLoading: loading, 
         error 
     // HomeUser -> 데이터 구조 정의
-    } = useSWR<HomeUser>('/api/me');
+    } = useMe();
 
     
     // 사용자의 팔로잉 목록 가져오기
-    const users = data?.following && [
-        ...data?.following, 
-    ];
+    const users = user?.following;
 
     return (
         <section className='w-full flex justify-center items-center p-4 shadow-sm shadow-neutral-300 mb-4 rounded-lg min-h-[90px] overflow-x-auto relative z-0'>
