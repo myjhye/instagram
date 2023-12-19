@@ -96,3 +96,31 @@ export async function getUserForProfile(username: string) {
       posts: user.posts ?? 0,
     }));
 }
+
+
+
+// 포스트 북마크 등록
+export async function addBookmark(userId: string, postId: string) {
+
+  return client
+    .patch(userId)
+    .setIfMissing({ bookmarks: [] })
+    .append('bookmarks', [
+      {
+        _ref: postId,
+        _type: 'reference',
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+
+// 포스트 북마크 삭제
+export async function removeBookmark(userId: string, postId: string) {
+
+  return client
+    .patch(userId)
+    .unset([`bookmarks[_ref=="${postId}"]`])
+    .commit();
+}
+
