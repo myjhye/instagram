@@ -10,6 +10,7 @@ import PostModal from "./PostModal";
 import PostDetail from "./PostDetail";
 import PostUserAvatar from "./PostUserAvatar";
 import Link from "next/link";
+import usePosts from "@/hooks/posts";
 
 // 컴포넌트에 전달되는 props
 type Props = {
@@ -21,6 +22,10 @@ export default function PostListCard({post, priority = false }: Props) {
 
     // 모달
     const [openModal, setOpenModal] = useState(false);
+    const { postComment } = usePosts();
+    const handlePostComment = (comment: string) => {
+        postComment(post, comment);
+    }
 
     return  (
         <article className="rounded-lg shadow-md border-gray-200">
@@ -60,7 +65,7 @@ export default function PostListCard({post, priority = false }: Props) {
             </ActionBar>
 
             {/* 댓글 입력 폼 */}
-            <CommentForm />
+            <CommentForm onPostComment={handlePostComment} />
 
             {/* 포스트 디테일을 모달로 표시 */}
             {

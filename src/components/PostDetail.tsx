@@ -16,8 +16,10 @@ export default function PostDetail({post}: Props) {
     const { data } = userSWR<FullPost>(`/api/posts/${post.id}`);
     // 포스트 댓글
     const comments = data?.comments;
-    
-    console.log(post);
+
+    const handlePostComment = (comment: string) => {
+        
+    }
 
     return (
         <section className="flex w-full h-full">
@@ -61,7 +63,7 @@ export default function PostDetail({post}: Props) {
                 {/* 포스트 좋아요, 작성자, 작성일 */}
                 <ActionBar post={post} />
                 {/* 댓글 작성 폼 */}
-                <CommentForm />
+                <CommentForm onPostComment={handlePostComment} />
             </div>
         </section>
     )
