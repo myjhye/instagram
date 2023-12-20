@@ -1,11 +1,9 @@
-import { SimplePost } from "@/model/post"
+import { Comment, SimplePost } from "@/model/post"
 import Image from "next/image";
 import PostUserAvatar from "./PostUserAvatar";
 import ActionBar from "./ActionBar";
-import CommentForm from "./CommentForm";
 import Avatar from "./Avatar";
 import useFullPost from "@/hooks/post";
-import useMe from "@/hooks/me";
 
 type Props = {
     post: SimplePost;
@@ -15,18 +13,12 @@ export default function PostDetail({post}: Props) {
 
     const {post: data, postComment} = useFullPost(post.id);
 
-    const {user} = useMe();
-    
     // 포스트 댓글
     const comments = data?.comments;
 
-    const handlePostComment = (comment: string) => {
-        user && postComment({
-            comment, 
-            username: user.username, 
-            image: user.image
-        })
-    }
+    const handlePostComment = (comment: Comment) => {
+        postComment(comment);
+    };
 
     return (
         <section className="flex w-full h-full">
@@ -68,9 +60,10 @@ export default function PostDetail({post}: Props) {
                     ))}
                 </ul>
                 {/* 포스트 좋아요, 작성자, 작성일 */}
-                <ActionBar post={post} />
-                {/* 댓글 작성 폼 */}
-                <CommentForm onPostComment={handlePostComment} />
+                <ActionBar 
+                    post={post}
+                    onComment={postComment} 
+                />
             </div>
         </section>
     )

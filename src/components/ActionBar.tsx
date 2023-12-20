@@ -5,18 +5,20 @@ import { useState } from "react";
 import ToggleButton from "./ui/ToggleButton";
 import HeartFilledIcon from "./ui/icons/HeartFilledIcon";
 import BookmarkFilledIcon from "./ui/icons/BookmarkFilledIcon";
-import { SimplePost } from "@/model/post";
+import { Comment, SimplePost } from "@/model/post";
 import { useSession } from "next-auth/react";
 import { useSWRConfig } from "swr";
 import usePosts from "@/hooks/posts";
 import useMe from "@/hooks/me";
+import CommentForm from "./CommentForm";
 
 type Props = {
     post: SimplePost;
     children?: React.ReactNode;
+    onComment: (comment: Comment) => void;
 }
 
-export default function ActionBar({post, children}: Props) {
+export default function ActionBar({post, children, onComment}: Props) {
 
     const { id, likes, createdAt } = post;
     const {user, setBookmark} = useMe();
@@ -31,6 +33,15 @@ export default function ActionBar({post, children}: Props) {
 
     const handleBookmark = (bookmark: boolean) => {
         user && setBookmark(id, bookmark);
+    }
+
+    const handleComment = (comment: string) => {
+
+        user && onComment({
+            comment, 
+            username: user.username, 
+            image: user.image
+        });
     }
 
     return (
@@ -56,6 +67,8 @@ export default function ActionBar({post, children}: Props) {
                     {parseDate(createdAt)}
                 </p>
             </div>
+            {/* 댓글 입력 폼 */}
+            <CommentForm onPostComment={handleComment} />
         </>
     )
 }

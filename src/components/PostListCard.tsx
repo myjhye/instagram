@@ -1,8 +1,7 @@
 'use client';
 
-import { SimplePost } from "@/model/post"
+import { Comment, SimplePost } from "@/model/post"
 import Image from "next/image";
-import CommentForm from "./CommentForm";
 import ActionBar from "./ActionBar";
 import { useState } from "react";
 import ModalPortal from "./ui/ModalPortal";
@@ -23,7 +22,7 @@ export default function PostListCard({post, priority = false }: Props) {
     // 모달
     const [openModal, setOpenModal] = useState(false);
     const { postComment } = usePosts();
-    const handlePostComment = (comment: string) => {
+    const handlePostComment = (comment: Comment) => {
         postComment(post, comment);
     }
 
@@ -49,7 +48,10 @@ export default function PostListCard({post, priority = false }: Props) {
             />
 
             {/* 액션 바 -> 좋아요 수, 사용자 이름, 포스트 내용, 생성 날짜 */}
-            <ActionBar post={post}>
+            <ActionBar 
+                post={post} 
+                onComment={handlePostComment}
+            >
                 <p>
                     <span className="font-bold mr-1">{post.username}</span>
                     <span>{post.text}</span>
@@ -63,9 +65,6 @@ export default function PostListCard({post, priority = false }: Props) {
                     </button>
                 )}
             </ActionBar>
-
-            {/* 댓글 입력 폼 */}
-            <CommentForm onPostComment={handlePostComment} />
 
             {/* 포스트 디테일을 모달로 표시 */}
             {
