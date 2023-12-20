@@ -1,4 +1,5 @@
 import { Comment, SimplePost } from '@/model/post';
+import { useCallback } from 'react';
 import useSWR from 'swr';
 
 async function updateLike(id: string, like: boolean) {
@@ -25,7 +26,7 @@ export default function usePosts() {
     } = useSWR<SimplePost[]>('/api/posts');
 
 
-    const setLike = (post: SimplePost, username: string, like: boolean) => {
+    const setLike = useCallback((post: SimplePost, username: string, like: boolean) => {
 
         const newPost = {
             ...post,
@@ -43,10 +44,10 @@ export default function usePosts() {
             rollbackOnError: true,
         });
         
-    };
+    }, [posts, mutate]);
 
 
-    const postComment = (post: SimplePost, comment: Comment) => {
+    const postComment = useCallback((post: SimplePost, comment: Comment) => {
 
         const newPost = {
             ...post,
@@ -62,7 +63,7 @@ export default function usePosts() {
             rollbackOnError: true,
         });
         
-    };
+    }, [posts, mutate]);
 
     return {posts, isLoading, error, setLike, postComment};
 }
