@@ -1,10 +1,11 @@
-import { FullPost, SimplePost } from "@/model/post"
+import { SimplePost } from "@/model/post"
 import Image from "next/image";
-import userSWR from 'swr';
 import PostUserAvatar from "./PostUserAvatar";
 import ActionBar from "./ActionBar";
 import CommentForm from "./CommentForm";
 import Avatar from "./Avatar";
+import useFullPost from "@/hooks/post";
+import useMe from "@/hooks/me";
 
 type Props = {
     post: SimplePost;
@@ -12,13 +13,19 @@ type Props = {
 
 export default function PostDetail({post}: Props) {
 
-    // 포스트 상세 정보 가져오기 -> swr 사용
-    const { data } = userSWR<FullPost>(`/api/posts/${post.id}`);
+    const {post: data, postComment} = useFullPost(post.id);
+
+    const {user} = useMe();
+    
     // 포스트 댓글
     const comments = data?.comments;
 
     const handlePostComment = (comment: string) => {
-        
+        user && postComment({
+            comment, 
+            username: user.username, 
+            image: user.image
+        })
     }
 
     return (
