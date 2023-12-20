@@ -1,5 +1,4 @@
 import { SimplePost } from '@/model/post';
-import { comment } from 'postcss';
 import useSWR from 'swr';
 
 async function updateLike(id: string, like: boolean) {
