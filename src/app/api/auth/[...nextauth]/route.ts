@@ -3,8 +3,10 @@ import { addUser } from '@/service/user';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
-// next auth 설정 정의 -> authOptions -> google login
+// next auth 설정 정의 -> authOptions
 const authOptions: NextAuthOptions = {
+
+    // ** 1. providers -> google login
     providers: [
         // google login provider 설정
         GoogleProvider({
@@ -15,8 +17,9 @@ const authOptions: NextAuthOptions = {
         }),
     ],
 
+    // ** 2. callbacks -> signIn, session, jwt -> 사용자 로그인, 세션 관리, jwt 관련 콜백 함수 
     callbacks: {
-        //** 로그인 -> 콜백 함수
+        // 2-1. 로그인 시 호출되는 콜백 함수
         async signIn(params) {
             const { user } = params;
             if (!user?.email) {
@@ -33,7 +36,7 @@ const authOptions: NextAuthOptions = {
             return true;
         },
         
-        //** 세션 관리 -> 콜백 함수
+        // 2-2. 세션 관리 시 호출되는 콜백 함수
         async session(params) {
             const { session, token } = params;
             const user = session?.user;
@@ -49,6 +52,7 @@ const authOptions: NextAuthOptions = {
             return session;
         },
 
+        // 2-3. jwt 관리 시 호출되는 콜백 함수
         async jwt(params) {
             const { token, user } = params;
 
@@ -60,7 +64,7 @@ const authOptions: NextAuthOptions = {
         
     },
 
-    // 로그인 페이지 경로 설정
+    // ** 3. pages -> 로그인 페이지 경로 설정
     pages: {
         signIn: '/auth/signin',
     },
