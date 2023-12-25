@@ -28,7 +28,7 @@ export async function addUser(user: OAuthUser) {
     });
 }
 
-// 사용자 정보 가져오기 -> 팔로우 버튼 컴포넌트 (팔로우 여부에 따라 버튼 ui 변경)
+// username에 해당하는 사용자 정보 가져오기 -> name, image, id, following, followers, bookmarks
 export async function getUserByUsername(username: string) {
 
   return client.fetch(

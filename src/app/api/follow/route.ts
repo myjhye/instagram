@@ -5,7 +5,10 @@ import { withSessionUser } from "@/util/session";
 export async function PUT(req: NextRequest) {
     
     return withSessionUser(async (user) => {
-        const {id: targetId, follow: isFollow} = await req.json();
+        const {
+            id: targetId, 
+            follow: isFollow
+        } = await req.json();
 
         if (!targetId || isFollow == null) {
             return new Response('bad request', {status: 400});

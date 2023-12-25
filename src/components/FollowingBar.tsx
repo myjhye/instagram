@@ -13,10 +13,8 @@ export default function FollowingBar() {
         user, 
         isLoading: loading, 
         error 
-    // HomeUser -> 데이터 구조 정의
     } = useMe();
 
-    
     // 사용자의 팔로잉 목록 가져오기
     const users = user?.following;
 
