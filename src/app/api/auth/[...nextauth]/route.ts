@@ -53,6 +53,7 @@ const authOptions: NextAuthOptions = {
         },
 
         // 2-3. jwt 관리 시 호출되는 콜백 함수
+        // jwt -> 클라이언트와 서버 간에 정보 안전 전송하는 토큰 기반 인증 방식. 사용자 로그인 상태 유지 & 사용자 권한 유무 확인에 사용.
         async jwt(params) {
             const { token, user } = params;
 
