@@ -4,6 +4,7 @@ import SideBar from "@/components/SideBar";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import { getToken } from "next-auth/jwt";
 
 export default async function Home() {
 
