@@ -86,3 +86,13 @@ export default function useMe() {
 
     return {user, isLoading, error, setBookmark, toggleFollow};
 }
+
+
+
+/*
+
+**커스텀 훅 
+공통 로직이나 기능을 하나의 컴포넌트 내에서 정의하고, 이를 여러 컴포넌트에서 재사용
+코드 중복을 줄이고, 관련 로직을 추상화해 코드 가독성, 유지보수성 up
+
+*/
