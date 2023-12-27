@@ -33,6 +33,11 @@ export async function POST(req: NextRequest) {
 
 /*
 
+next.js의 api 라우트 파일
+- 클라이언트와 서버 간의 데이터 통신 처리
+- api 엔드포인트로 사용
+- 클라이언트는 이 엔드포인트로 데이터를 요청하고, 서버는 해당 요청을 처리하고 응답 제공
+
 1. GET 함수
 - 클라이언트로부터 GET 요청 처리
 - withSessionUser 함수를 사용해 현재 로그인한 사용자 정보 가져오기
