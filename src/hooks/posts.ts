@@ -18,6 +18,7 @@ async function addComment(id: string, comment: string) {
 
 export default function usePosts() {
 
+    // useSWR : 데이터 가져오기 -> posts 배열
     const { 
         data: posts, 
         isLoading, 
@@ -26,6 +27,7 @@ export default function usePosts() {
     } = useSWR<SimplePost[]>('/api/posts');
 
 
+    // setLike : 게시물 좋아요 추가/제거
     const setLike = useCallback((post: SimplePost, username: string, like: boolean) => {
 
         const newPost = {
@@ -47,6 +49,8 @@ export default function usePosts() {
     }, [posts, mutate]);
 
 
+
+    // postComment : 게시물 댓글 추가
     const postComment = useCallback((post: SimplePost, comment: Comment) => {
 
         const newPost = {
@@ -67,3 +71,15 @@ export default function usePosts() {
 
     return {posts, isLoading, error, setLike, postComment};
 }
+
+
+
+/*
+
+useCallback
+- 함수 메모이제이션
+- 리렌더링 시 새 인스턴스를 생성하지 않도록 함
+- 의존하는 상태나 프롭스가 변경될 때만 함수 새로 생성
+- posts나 mutate가 변경될 때만 setLike 함수가 다시 생성
+
+*/

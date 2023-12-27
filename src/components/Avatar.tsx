@@ -1,11 +1,10 @@
+// 아바타 사이즈
 type AvatarSize = 'small' | 'medium' | 'large' | 'xlarge';
 
+// Avatar 컴포넌트의 프로퍼티 정의
 type Props = {
-    // 아바타 이미지 url
     image?: string | null
-    // 아바타 사이즈 -> 선택적, 기본 값은 large
     size?: AvatarSize;
-    // 아바타 하이라이트 여부 -> 선택적, 기본 값은 false
     highlight?: boolean;
 };
 
@@ -16,6 +15,12 @@ export default function Avatar({
 }: Props) {
 
     return (
+        /* 
+            ** size가 small일 시 
+            <div className="rounded-full flex justify-center items-center -> baseStyle
+                            bg-gradient-to-bl from-fuchsia-600 via-rose-500 to-amber-300 -> highlightStyle
+                            w-9 h-9"> -> container
+        */ 
         <div className={getContainerStyle(size, highlight)}>
             <img
                 className={`bg-white object-cover rounded-full ${getImageSizeStyle(size).image}`}
@@ -26,27 +31,27 @@ export default function Avatar({
     );
 }
 
+// <아바타 컨테이너 스타일> 계산
 function getContainerStyle(size: AvatarSize, highlight: boolean): string {
 
     const baseStyle = 'rounded-full flex justify-center items-center'
     const highlightStyle = highlight
         ? 'bg-gradient-to-bl from-fuchsia-600 via-rose-500 to-amber-300' 
         : '';
-    // getImageSizeStyle 함수 호출 -> 아바타 크기에 따른 스타일 가져오기
     const { container } = getImageSizeStyle(size);
-    // 기본 스타일, 하이라이트 스타일, 이미지 사이즈 스타일을 조합 -> 최종 컨테이너 스타일 반환 
+
     return `${baseStyle} ${highlightStyle} ${container}`
 }
 
+// 아바타 사이즈에 따른 <이미지>와 <컨테이너 스타일> 표시
 type ImageSizeStyle = {
     container: string;
     image: string;
 }
 
-// 아바타 사이즈에 따른 이미지, 컨테이너 스타일 반환
+// 아바타 사이즈에 따른 <이미지>와 <컨테이너 스타일> 반환
 function getImageSizeStyle(size: AvatarSize): ImageSizeStyle {
 
-    // size 매개변수에 값에 따라 다른 스타일 반환
     switch(size) {
         case 'small' : 
             return { container: 'w-9 h-9', image: 'w-[34px] h-[34px] p-[0.1rem]'};
@@ -60,6 +65,39 @@ function getImageSizeStyle(size: AvatarSize): ImageSizeStyle {
             throw new Error(`해당 타입 사이즈를 지원하지 않음: ${size}`);
     }
 }
+
+
+
+/*
+
+Avatar 컴포넌트
+- image, size, highlight 프로퍼티를 받아 렌더링
+- 사용자 프로필 사진
+- 사이즈와 하이라이트 기능 커스터마이즈
+
+1. AvatarSize 타입
+- 아바타 사이즈 나타내는 문자열 리터럴 타입
+- 가능한 사이즈 : small, medium, large, xlarge
+
+2. Props 타입
+- Avatar 컴포넌트의 프로퍼티 정의
+- image : 아바타 이미지 url을 나타내는 문자열 또는 null
+- size : 아바타 크기를 선택적으로 지정. 기본 값은 large.
+- highlight : 아바타를 하이라이트할지 여부 선택적으로 지정. 기본 값은 false.
+
+3. getContainerStyle 함수
+- 아바타 컨테이너 스타일 계산
+- baseStyle : 모든 사이즈의 아바타에 적용되는 기본 스타일
+- highlightStyle : 하이라트가 활성화되면 아바타에 적용되는 스타일
+- getImageSizeStyle : 아바타 이미지의 사이즈 스타일을 가져와 컨테이너 스타일을 계산
+
+4. getImageSizeStyle 함수
+- 아바타 사이즈에 따른 이미지와 컨테이너 스타일 반환
+- size 매개변수를 기반으로 다양한 사이즈에 대한 스타일 반환
+- 지원하지 않는 사이즈가 입력된 경우 예외를 throw
+
+*/
+
 
 
 // function getContainerSize(size: AvatarSize): string {
