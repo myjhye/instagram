@@ -47,7 +47,7 @@ export default function PostListCard({post, priority = false }: Props) {
                 onClick={() => setOpenModal(true)}
             />
 
-            {/* 액션 바 -> 좋아요 수, 사용자 이름, 포스트 내용, 생성 날짜 */}
+            {/* 액션 바 -> 좋아요, 북마크, 댓글, 생성 날짜 */}
             <ActionBar 
                 post={post} 
                 onComment={handlePostComment}

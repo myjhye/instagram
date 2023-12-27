@@ -14,6 +14,12 @@ const simplePostProjection = `
     "createdAt":_createdAt
 `;
 
+
+/* 
+가져오는 데이터
+1. 로그인한 사용자의 게시물
+2. 로그인한 사용자가 팔로우하는 사용자들의 게시물
+*/
 export async function getFollowingPostsOf(username: string) {
   return client
     .fetch(

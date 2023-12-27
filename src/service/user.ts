@@ -28,9 +28,30 @@ export async function addUser(user: OAuthUser) {
     });
 }
 
-// username에 해당하는 사용자 정보 가져오기 -> name, image, id, following, followers, bookmarks
+/* 
+username에 해당하는 사용자 정보 가져오기 -> name, image, id, following, followers, bookmarks
+
+1. 사용자 정보 -> name, image
+사용자의 기본 정보 (이름, 이미지 등)
+
+2. 사용자의 고유 식별자 -> id
+
+3. 팔로잉 목록 -> following
+사용자가 팔로우하는 다른 사용자의 목록
+팔로잉의 username, image
+
+4. 팔로워 목록 -> followers
+사용자를 팔로우하는 다른 사용자의 목록
+팔로워의 username, image
+
+5. 북마크 목록 -> bookmarks
+사용자가 북마크한 게시물
+각 북마크 항목의 고유 식별자 (_id)
+*/
+
 export async function getUserByUsername(username: string) {
 
+  // client.fetch -> 데이터베이스에 데이터 요청 함수. 데이터베이스에서 정보를 가져와 화면에서 사용하게 함.
   return client.fetch(
     `*[_type == "user" && username == "${username}"][0]{
       ...,

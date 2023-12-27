@@ -29,7 +29,7 @@ export default function useMe() {
     //---- 데이터 가져오는 파트
     
     const {
-        // 사용자 데이터 
+        // 사용자 정보 
         data: user, 
         isLoading, 
         error,
@@ -40,15 +40,15 @@ export default function useMe() {
 
     //---- 상태 업데이트 파트
 
-    // 즐겨찾기 상태 업데이트 함수
+    // 북마크 상태 업데이트 함수
     const setBookmark = useCallback((postId: string, bookmark: boolean) => {
 
-        // 사용자 데이터 없으면 아무 작업 수행 x
+        // 미로그인시 아무 작업 수행 x
         if (!user) {
             return;
         }
 
-        // 현재 사용자의 즐겨찾기 목록
+        // 현재 사용자의 북마크 목록
         const bookmarks = user.bookmarks;
         
         // 업데이트 사용자 데이터 생성 
