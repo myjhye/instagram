@@ -51,7 +51,7 @@ export default function Navbar() {
                         menu.map((item) => (
                             <li key={item.href}>
                                 <Link href={item.href}>
-                                    {/* 현재 페이지의 경로가 -> 항목의 경로와 같으면 -> 클릭된 아이콘 표시 -> 아니면 일반 아이콘 표시  */}
+                                    {/* 현재 페이지의 경로가 -> 항목의 경로와 같으면 -> clickedIcon 표시 -> 아니면 icon 표시  */}
                                     {pathName === item.href ? item.clickedIcon : item.icon}
                                 </Link>
                             </li>

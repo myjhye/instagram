@@ -14,11 +14,27 @@ const simplePostProjection = `
     "createdAt":_createdAt
 `;
 
+/*
+simplePostProjection
+- username : 게시물 작성자의 사용자명
+- userImage : 게시물 작성자의 프로필 이미지
+- image : 게시물에 첨부된 이미지
+- likes : 게시물에 좋아요를 누른 사용자들의 사용자명 목록
+- text : 게시물의 첫 번째 댓글
+- comments : 게시물에 있는 전체 댓글 수
+- id : 게시물의 고유 식별자
+- createdAt : 게시물 작성일
+*/
+
+
 
 /* 
 가져오는 데이터
 1. 로그인한 사용자의 게시물
 2. 로그인한 사용자가 팔로우하는 사용자들의 게시물
+
+simplePostProjection
+- 로그인한 사용자가 작성한 게시물 정보 & 로그인한 사용자가 팔로우하는 사용자들의 게시물 정보
 */
 export async function getFollowingPostsOf(username: string) {
   return client
@@ -79,6 +95,24 @@ export async function getSavedPostsOf(username: string) {
     )
     .then(mapPosts);
 }
+
+
+/* 
+mapPosts가 가져오는 데이터
+- 각 객체는 SimplePost 타입을 따르며, 다음 필드들을 포함한다
+
+(posts)
+- id : 게시물 고유 식별자
+- username : 게시물 작성자의 사용자명
+- userImage : 게시물 작성자의 이미지 url
+- comments : 게시물에 대한 댓글 수 (숫자)
+- text : 게시물의 텍스트 내용
+- createdAt : 게시물의 작성일
+
+- likes : 게시물에 좋아요를 누른 사용자명 목록 (빈 배열일 수 있음)
+- image : 게시물의 이미지 url
+*/
+
 function mapPosts(posts: SimplePost[]) {
   return posts.map((post: SimplePost) => ({
     ...post,
