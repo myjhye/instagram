@@ -2,6 +2,11 @@
 
 import { SWRConfig } from 'swr';
 
+/*
+SWRConfigContext
+- SWR : 어플리케이션에서 데이터를 비동기적으로 가져오고 캐싱하는 라이브러리
+*/
+
 type Props = {
   children: React.ReactNode;
 };
