@@ -15,6 +15,8 @@ layout.tsx
 ** 렌더링하는 컴포넌트
 - Navbar -> 데이터를 가져오는 역할을 하지 않기에 SWRConfigContext 포함 x
 - SWRConfigContext 컴포넌트 내에 포함된 자식 컴포넌트들
+
+
 */
 
 
