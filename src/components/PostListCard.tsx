@@ -11,7 +11,12 @@ import PostUserAvatar from "./PostUserAvatar";
 import Link from "next/link";
 import usePosts from "@/hooks/posts";
 
-// 컴포넌트에 전달되는 props
+/*
+PostListCard
+- 개별 포스트 카드
+- 사용자의 프로필 이미지, 포스트 이미지, 액션 바(좋아요, 북마크, 댓글, 생성날짜), 모달 렌더링
+*/
+
 type Props = {
     post: SimplePost;
     priority?: boolean;
@@ -19,7 +24,6 @@ type Props = {
 
 export default function PostListCard({post, priority = false }: Props) {
 
-    // 모달
     const [openModal, setOpenModal] = useState(false);
     const { postComment } = usePosts();
     const handlePostComment = (comment: Comment) => {
@@ -79,3 +83,19 @@ export default function PostListCard({post, priority = false }: Props) {
         </article>
     )
 }
+
+
+/*
+
+** 모달 관련 컴포넌트를 2개 사용하는 이유
+- 코드 모듈화 : 큰 코드베이스를 여러 작은 코드로 분할 -> ex) html + js가 합쳐진 한 파일을 html, js 두 파일로 나누기
+- 컴포넌트 역할과 책임 분리
+
+1. ModalPortal
+- ReactDOM.createPortal 사용해 모달 생성하고 화면에 표시
+
+2. PostModal
+- 모달 컨텐츠, 내용 정의
+- PostListCard로부터 받은 onClose 콜백함수 호출해 모달 닫기
+
+*/

@@ -75,11 +75,13 @@ export default function usePosts() {
 
 
 /*
-
 useCallback
 - 함수 메모이제이션
 - 리렌더링 시 새 인스턴스를 생성하지 않도록 함
 - 의존하는 상태나 프롭스가 변경될 때만 함수 새로 생성
 - posts나 mutate가 변경될 때만 setLike 함수가 다시 생성
+
+return {posts, isLoading, error, setLike, postComment};
+- 다른 컴포넌트에서 해당 데이터와 함수를 사용하기 위함 -> 컴포넌트 간에 데이터 공유 (커스텀 훅의 원리)
 
 */
