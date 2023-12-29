@@ -2,6 +2,11 @@ import { Comment, FullPost } from '@/model/post';
 import { useCallback } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 
+/*
+mutate
+데이터 갱신 함수
+*/
+
 async function addComment(id: string, comment: string) {
     return fetch('/api/comments', {
         method: 'POST',

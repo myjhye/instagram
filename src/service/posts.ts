@@ -29,7 +29,7 @@ simplePostProjection
 
 
 /* 
-가져오는 데이터
+** getFollowingPostsOf가 가져오는 데이터
 1. 로그인한 사용자의 게시물
 2. 로그인한 사용자가 팔로우하는 사용자들의 게시물
 
@@ -48,6 +48,21 @@ export async function getFollowingPostsOf(username: string) {
     .then(mapPosts);
 }
 
+/*
+** getPost가 가져오는 데이터
+1. id : 게시물의 고유 식별자
+2. username : 게시물 작성자 사용자명
+3. userImage : 게시물 작성자의 프로필 이미지 url
+4. image : 게시물에 첨부된 이미지 url
+5. likes : 게시물에 좋아요를 누른 사용자들의 사용자명 목록
+6. comments : 게시물에 작성된 댓글 목록
+6-1. comment : 댓글 내용
+6-2. username : 댓글 작성자의 사용자명
+6-3. image : 댓글 작성자의 프로필 이미지 url
+7. createdAt : 게시물 작성일
+*/
+
+// 게시물 상세
 export async function getPost(id: string) {
   return client
     .fetch(

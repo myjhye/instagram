@@ -5,13 +5,28 @@ import ActionBar from "./ActionBar";
 import Avatar from "./Avatar";
 import useFullPost from "@/hooks/post";
 
+/*
+** PostDetail 컴포넌트에서 데이터를 서버에서 가져와 화면에 표시되기까지 과정
+1. PostDetail 컴포넌트 렌더링. 이 컴포넌트는 SimplePost 객체를 post 프로퍼티로 받음.
+2. useFullPost 커스텀 훅 호출 : 이 훅은 post.id를 사용해 해당 게시물에 대한 추가 데이터와 댓글을 가져오는 역할을 함
+3. useSWR 라이브러리 사용해 서버에서 데이터 (게시물의 이미지, 작성자 정보, 댓글) 가져옴
+const { post: data, isLoading, error, mutate } = useSWR<FullPost>(`/api/posts/${postId}`);
+4. 가져온 데이터를 화면에 표시되고, 사용자는 게시물과 관련된 작업을 수행할 수 있음 : ex) 댓글 작성, 좋아요
+5. 사용자가 작업을 수행하면, 해당 작업은 서버로 전송되어 데이터를 업데이트함 : ex) 댓글 작성, 좋아요
+
+PostDetail 컴포넌트는 서버에서 데이터를 가져와 화면에 게시물과 관련 정보를 표시하고, 사용자의 상호작용에 따라 서버와 데이터를 동기화
+*/
+
 type Props = {
     post: SimplePost;
 }
 
 export default function PostDetail({post}: Props) {
 
-    const {post: data, postComment} = useFullPost(post.id);
+    const {
+        post: data, 
+        postComment
+    } = useFullPost(post.id);
 
     // 포스트 댓글
     const comments = data?.comments;
