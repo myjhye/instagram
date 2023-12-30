@@ -156,16 +156,32 @@ export async function dislikePost(postId: string, userId: string) {
     .commit();
 }
 
+
+
+/*
+.patch(postId)
+- 업데이트할 게시물에 대한 변경 사항을 정의하고 적용하기 위한 작업 시작
+*/
+
+// 게시물에 댓글 추가
 export async function addComment(postId: string, userId: string, comment: string) {
+  
+  // 1. client 객체 사용해 데이터베이스와 상호작용 시작
   return client
-    .patch(postId) //
+    // 2. 게시물을 업데이트 할 준비
+    .patch(postId)
+    // 3. 만약 해당 게시물에 'comments' 필드가 없다면, 빈 배열로 초기화 
     .setIfMissing({ comments: [] })
+    // 4. 'comments' 필드에 새로운 댓글을 추가
     .append('comments', [
       {
+        // 5. 새로운 댓글 내용
         comment,
+        // 6. 댓글을 작성한 사용자를 참조하는 '_ref' 속성 설정
         author: {_ref: userId, _type: 'reference'},
       },
     ])
+    // 7. 업데이트 내용을 서버에 반영하고 저장
     .commit({ autoGenerateArrayKeys: true });
 }
 
