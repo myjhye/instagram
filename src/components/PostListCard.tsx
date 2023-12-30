@@ -70,7 +70,7 @@ export default function PostListCard({post, priority = false }: Props) {
                 )}
             </ActionBar>
 
-            {/* 포스트 디테일을 모달로 표시 */}
+            {/* 게시물 카드 클릭 시 -> 게시물 디테일을 모달로 표시 */}
             {
                 openModal && (
                     <ModalPortal>
