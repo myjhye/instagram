@@ -7,15 +7,14 @@ type Props = {
 };
 
 /*
-**ProfileUser
-name
-username
-email
-following
-followers
-posts
+ProfileUser
+1. name
+2. username
+3. email
+4. following
+5. followers
+6. posts
 */
-
 
 export default function UserProfile({user}: Props) {
 
