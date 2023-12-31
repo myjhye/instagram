@@ -5,21 +5,32 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
+/*
+사용자 프로필 컴포넌트
+
+getUser
+- 사용자 정보 쿼리인 getUserForProfile 캐싱 -> <데이터 결과를 캐시에 저장> -> 동일한 사용자 정보를 여러 번 요청 시 <캐시된 데이터를 활용해 중복 요청 방지>
+- <메모리 캐시>라고 부름
+- 네트워크 요청 줄여 서버 부하 줄임
+
+*/
+
+
 type Props = {
-    // params -> url 파라미터 중 사용자명 (username) 포함
     params: {
         username: string
     };
 }
 
-// 사용자 정보 (getUserForProfile) 캐싱 -> 데이터 결과를 캐시에 저장 -> 동일한 사용자 정보 여러 번 요청 시 캐시된 데이터를 활용해 중복 요청 방지 
+// 사용자 정보를 캐싱해 중복 요청 방지 함수
 const getUser = cache(async (username: string) => getUserForProfile(username));
 
-// 사용자 프로필 컴포넌트
 export default async function UserPage({params: {username}}: Props) {
 
+    // 사용자 정보
     const user = await getUser(username);
 
+    // 사용자 정보가 없으면 404 오류 페이지로 리다이렉션
     if (!user) {
         notFound();
     }

@@ -90,11 +90,21 @@ export async function searchUsers(keyword?: string) {
 }
 
 
+/*
+** getUserForProfile가 가져오는 데이터
+1. id : 사용자의 고유 식별자
+2. following : 사용자 팔로잉 수
+3. followers : 사용자 팔로워 수
+4. posts : 사용자가 게시한 게시물의 수
+5. 기타 user 필드 : name, username, image.. (...,)
 
-// 사용자 프로필 정보 가져오기 -> 사용자 프로필 페이지
+*[_type == "user" && username == "${username}"][0]
+<user>(_type == "user") 데이터베이스에서 username과 일치하는 username 데이터 가져오기 
+*/
+
+// 사용자 프로필 페이지 데이터 가져오기
 export async function getUserForProfile(username: string) {
   
-  // client를 사용해 sanity cms에서 사용자 정보 검색
   return client
     .fetch(
       `*[_type == "user" && username == "${username}"][0]{
@@ -106,7 +116,6 @@ export async function getUserForProfile(username: string) {
     }
     `
     )
-    // 가져온 사용자 정보 가공
     .then((user) => ({
       ...user,
       // 팔로잉 수 가져오기 -> 없으면 기본값 0
