@@ -24,6 +24,9 @@ simplePostProjection
 - comments : 게시물에 있는 전체 댓글 수
 - id : 게시물의 고유 식별자
 - createdAt : 게시물 작성일
+
+** 목적
+post 관련 데이터 <캡슐화> -> 코드 재사용
 */
 
 
@@ -80,30 +83,67 @@ export async function getPost(id: string) {
     .then((post) => ({ ...post, image: urlFor(post.image) }));
 }
 
+/*
+getPostsOf
+- 주어진 사용자 (username)가 작성한 게시물을 내림차순으로 정렬
+
+simplePostProjection
+- post 관련 데이터 <캡슐화> -> 코드 재사용
+
+mapPosts
+- <가져온 post 데이터에 추가 작업> 하고 반환 : likes, image
+*/
+
+// 사용자 프로필 페이지의 게시물
 export async function getPostsOf(username: string) {
   return client
     .fetch(
-      `*[_type == "post" && author->username == "${username}"]
+      `*[_type=="post" && author->username=="${username}"]
       | order(_createdAt desc){
         ${simplePostProjection}
       }`
     )
     .then(mapPosts);
 }
+
+
+/*
+*[_type=="post" && "${username}" in likes[]->username]
+- likes 필드에 좋아요를 누른 사용자의 username이 있는지 확인
+*/
+
+// 좋아요를 누른 게시물
 export async function getLikedPostsOf(username: string) {
   return client
     .fetch(
-      `*[_type == "post" && "${username}" in likes[]->username]
+      `*[_type=="post" && "${username}" in likes[]->username]
       | order(_createdAt desc){
         ${simplePostProjection}
       }`
     )
     .then(mapPosts);
 }
+
+
+/*
+*[_type=="post" && _id in *[_type=="user" && username=="${username}"].bookmarks[]._ref]
+1. _type=="post"
+- post 유형의 문서 필터링
+2. *[_type=="user" && username=="${username}"]
+- _type=="user" 문서에서 username이 주어진 사용자의 username과 일치하는 지 확인
+3. .bookmarks[]._ref
+- _type=="user" 문서에서 bookmarks 배열을 _ref으로 가져온다 : 사용자가 북마크한 게시물 찾기
+** reference 사용 이유
+- <다른 문서 (user)>에서의 필드 값(bookmark) 찾기
+4. _id in ...
+- 이전 단계에서 얻은 _ref 값을 사용해 게시물의 _id와 일치하는 게시물을 확인 : 사용자가 북마크한 게시물 식별
+*/
+
+// 북마크한 게시물
 export async function getSavedPostsOf(username: string) {
   return client
     .fetch(
-      `*[_type == "post" && _id in *[_type=="user" && username=="${username}"].bookmarks[]._ref]
+      `*[_type=="post" && _id in *[_type=="user" && username=="${username}"].bookmarks[]._ref]
       | order(_createdAt desc){
         ${simplePostProjection}
       }`

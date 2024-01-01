@@ -30,13 +30,12 @@ type Props = {
     };
 }
 
-// 사용자 정보를 캐싱해 중복 요청 방지 함수
 const getUser = cache(async (username: string) => getUserForProfile(username));
 
 export default async function UserPage({params: {username}}: Props) {
 
     // 사용자 정보
-    const user = await getUser(username);
+    const user = await getUserForProfile(username);
 
     // 사용자 정보가 없으면 404 오류 페이지로 리다이렉션
     if (!user) {

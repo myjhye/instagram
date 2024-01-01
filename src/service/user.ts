@@ -99,20 +99,20 @@ export async function searchUsers(keyword?: string) {
 5. 기타 user 필드 : name, username, image.. (...,)
 
 *[_type == "user" && username == "${username}"][0]
-<user>(_type == "user") 데이터베이스에서 username과 일치하는 username 데이터 가져오기 
+user 데이터베이스에서 (_type == "user") username과 일치하는 username 데이터 가져오기 
 */
 
-// 사용자 프로필 페이지 데이터 가져오기
+// 사용자 프로필
 export async function getUserForProfile(username: string) {
   
   return client
     .fetch(
-      `*[_type == "user" && username == "${username}"][0]{
+      `*[_type=="user" && username== "${username}"][0]{
       ...,
       "id":_id,
       "following": count(following),
       "followers": count(followers),
-      "posts": count(*[_type=="post" && author->username == "${username}"])
+      "posts": count(*[_type == "post" && author->username == "${username}"])
     }
     `
     )
