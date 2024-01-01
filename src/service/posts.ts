@@ -176,9 +176,35 @@ function mapPosts(posts: SimplePost[]) {
   }));
 }
 
+/*
+2개의 매개변수
+1. postId : 좋아요를 추가하려는 게시물의 고유 id
+2. userId : 좋아요를 누른 사용자의 고유 id
+
+client
+- 데이터베이스와 상호작용
+
+client.patch(postId)
+- postId에 해당하는 게시물 업데이트
+
+.setIfMissing({ likes: [] })
+- 해당 게시물에 likes 필드가 없으면 빈 배열로 초기화
+- 이는 게시물이 처음으로 좋아요를 받는 경우를 고려한 것 : 좋아요 목록을 담을 like 필드를 만들고 이를 빈 배열로 초기화
+
+.append('likes', [...])
+- likes 필드에 새로운 좋아요 정보 추가 : 추가할 정보는 배열로 전달되며, 배열에는 다음 정보가 포함
+-> _ref : 사용자 고유 id를 참조하는 _type이 reference인 객체
+-> 좋아요를 누른 사용자 나타냄
+
+.commit({ autoGenerateArrayKeys: true })
+- 이전 단계에서 설정한 업데이트 내용을 서버에 반영하고 저장
+- 새로운 사용자가 좋아요를 누를 때마다 해당 사용자의 정보를 배열에 추가하고 배열 내에서 고유 키를 자동으로 생성 : 이렇게 생성된 키를 사용해 배열 내의 각 항목을 식별
+*/
+
+// 게시물 좋아요 추가
 export async function likePost(postId: string, userId: string) {
   return client
-    .patch(postId) //
+    .patch(postId) 
     .setIfMissing({ likes: [] })
     .append('likes', [
       {
@@ -189,6 +215,16 @@ export async function likePost(postId: string, userId: string) {
     .commit({ autoGenerateArrayKeys: true });
 }
 
+/*
+.unset([`likes[_ref=="${userId}"]`])
+- 해당 게시물의 likes 배열에서 userId와 일치하는 사용자 정보를 제거
+** _ref
+- 한 문서가 다른 문서 참조 또는 연결
+- 참조 대상 문서의 고유 id : 이를 통해 두 문서 간의 관계를 설정하거나 다른 문서의 정보를 가져올 수 있음
+- 좋아요를 누른 사용자들의 정보 참조 : user 문서의 고유 id 참조 
+*/
+
+// 게시물 좋아요 취소
 export async function dislikePost(postId: string, userId: string) {
   return client
     .patch(postId)
