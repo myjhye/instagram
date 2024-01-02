@@ -10,6 +10,7 @@ updateLike 함수
 body: JSON.stringify({ id, like })
 - id : 좋아요를 추가/제거할 게시물의 고유 식별자
 - like : true/false 값을 담아서, 좋아요를 추가할 것인지 제거할 것인지 서버에 알려준다. true : 좋아요 추가, false : 좋아요 제거
+- JSON.stringify({ ... }) : 객체를 json 문자열로 변환하고 http 요청 본문에 포함시켜 서버에 데이터 전송한다 : 서버에서는 이 json 데이터를 다시 파싱해 필요한 데이터를 추출한다
 */
 
 async function updateLike(id: string, like: boolean) {
@@ -60,7 +61,7 @@ export default function usePosts() {
         - like 변수가 false 일 시 (사용자가 좋아요 취소 시) : 기존 likes 배열에서 <사용자의 username을 제외>한 배열 생성 : 사용자가 이미 좋아요를 누른 게시물에서 좋아요 취소 됨
 
         const newPosts = posts?.map(p => (p.id === post.id ? newPost : p));
-        - 업데이트된 게시물만 변경되고, 나머지 게시물은 변경되지 않은 상태로 남음
+        - 업데이트된 게시물만 변경되고 (newPost), 나머지 게시물은 변경되지 않은 상태로 남음
 
         return mutate(updateLike(post.id, like), { ... }
         - mutate 함수 사용해 updateLike(post.id, like) 함수 호출 : 서버에 좋아요 업데이트 요청 보내기
