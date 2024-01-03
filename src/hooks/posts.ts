@@ -7,10 +7,13 @@ updateLike 함수
 - 클라이언트에서 서버에 요청 보내는 역할 : 좋아요 추가/제거 요청
 - 서버에 데이터를 업데이트 하고 업데이트 된 결과 받아옴
 
-body: JSON.stringify({ id, like })
-- id : 좋아요를 추가/제거할 게시물의 고유 식별자
+body: JSON.stringify({ postId, like })
+- postId : 좋아요를 추가/제거할 게시물의 고유 식별자
 - like : true/false 값을 담아서, 좋아요를 추가할 것인지 제거할 것인지 서버에 알려준다. true : 좋아요 추가, false : 좋아요 제거
 - JSON.stringify({ ... }) : 객체를 json 문자열로 변환하고 http 요청 본문에 포함시켜 서버에 데이터 전송한다 : 서버에서는 이 json 데이터를 다시 파싱해 필요한 데이터를 추출한다
+
+addComment 함수
+
 */
 
 async function updateLike(postId: string, like: boolean) {

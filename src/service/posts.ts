@@ -185,16 +185,14 @@ client
 - 데이터베이스와 상호작용
 
 client.patch(postId)
-- postId에 해당하는 게시물 업데이트
+- post 문서 업데이트
 
 .setIfMissing({ likes: [] })
 - 해당 게시물에 likes 필드가 없으면 빈 배열로 초기화
-- 이는 게시물이 처음으로 좋아요를 받는 경우를 고려한 것 : 좋아요 목록을 담을 like 필드를 만들고 이를 빈 배열로 초기화
+- 게시물이 처음으로 좋아요를 받는 경우를 고려한 것 : 좋아요 목록을 담을 like 필드를 만들고 이를 빈 배열로 초기화
 
-.append('likes', [...])
-- likes 필드에 새로운 좋아요 정보 추가 : 추가할 정보는 배열로 전달되며, 배열에는 다음 정보가 포함
--> _ref : 사용자 고유 id를 참조하는 _type이 reference인 객체
--> 좋아요를 누른 사용자 나타냄
+.append('likes', [{ _ref: userId, _type: 'reference' }])
+- likes 필드에 좋아요 누른 사용자 userId를 reference 타입으로 추가
 
 .commit({ autoGenerateArrayKeys: true })
 - 이전 단계에서 설정한 업데이트 내용을 서버에 반영하고 저장
@@ -236,28 +234,29 @@ export async function dislikePost(postId: string, userId: string) {
 
 /*
 .patch(postId)
-- 업데이트할 게시물에 대한 변경 사항을 정의하고 적용하기 위한 작업 시작
+- post 문서 업데이트
+
+.append('comments', [{ comment, author: { _ref: userId, _type: 'reference' }}])
+- 'comments' 필드에 다음 추가
+1. comment : 새로운 댓글 내용
+2. author : 댓글을 작성한 사용자를 참조하는 reference 설정
+
+.commit({ autoGenerateArrayKeys: true })
+- 업데이트 내용을 서버에 반영하고 저장
 */
 
 // 게시물에 댓글 추가
 export async function addComment(postId: string, userId: string, comment: string) {
   
-  // 1. client 객체 사용해 데이터베이스와 상호작용 시작
   return client
-    // 2. 게시물을 업데이트 할 준비
     .patch(postId)
-    // 3. 만약 해당 게시물에 'comments' 필드가 없다면, 빈 배열로 초기화 
     .setIfMissing({ comments: [] })
-    // 4. 'comments' 필드에 새로운 댓글을 추가
     .append('comments', [
       {
-        // 5. 새로운 댓글 내용
         comment,
-        // 6. 댓글을 작성한 사용자를 참조하는 '_ref' 속성 설정
         author: {_ref: userId, _type: 'reference'},
       },
     ])
-    // 7. 업데이트 내용을 서버에 반영하고 저장
     .commit({ autoGenerateArrayKeys: true });
 }
 
