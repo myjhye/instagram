@@ -13,10 +13,10 @@ body: JSON.stringify({ id, like })
 - JSON.stringify({ ... }) : 객체를 json 문자열로 변환하고 http 요청 본문에 포함시켜 서버에 데이터 전송한다 : 서버에서는 이 json 데이터를 다시 파싱해 필요한 데이터를 추출한다
 */
 
-async function updateLike(id: string, like: boolean) {
+async function updateLike(postId: string, like: boolean) {
     return fetch('/api/likes', {
         method: 'PUT',
-        body: JSON.stringify({ id, like }),
+        body: JSON.stringify({ postId, like }),
     }).then(res => res.json());
 }
 
