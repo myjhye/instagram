@@ -22,3 +22,10 @@ export type SearchUser = AuthUser & {
 export type ProfileUser = SearchUser & {
     posts: number;
 };
+
+export type FollowingAndFollowers = {
+    followings: string[];
+    followers: string[];
+    username: string;
+};
+  

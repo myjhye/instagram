@@ -181,3 +181,13 @@ export async function unfollow(myId: string, targetId: string) {
     .patch(targetId, (user) => user.unset([`followers[_ref=="${myId}"]`]))
     .commit({ autoGenerateArrayKeys: true });
 }
+
+
+// 팔로잉 목록 가져오기
+export async function getFollowingOf(username: string) {
+  
+  return client.fetch
+  (`*[_type == "user" && username == "${username}"][0].following[]->{
+    username, 
+  }`);
+}
