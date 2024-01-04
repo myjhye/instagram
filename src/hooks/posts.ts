@@ -23,10 +23,10 @@ async function updateLike(postId: string, like: boolean) {
     }).then(res => res.json());
 }
 
-async function addComment(id: string, comment: string) {
+async function addComment(postId: string, comment: string) {
     return fetch('/api/comments', {
         method: 'POST',
-        body: JSON.stringify({ id, comment }),
+        body: JSON.stringify({ postId, comment }),
     }).then(res => res.json());
 }
 
