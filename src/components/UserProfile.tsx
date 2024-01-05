@@ -45,19 +45,49 @@ export default function UserProfile({user}: Props) {
                     {info.map((item, index) => (
                         <li key={index}>
                             {item.title === '팔로우' ? (
-                                <Link href={`/followings/${user.username}`}>
-                                    <span>{item.title}</span>
-                                    <span className="font-bold ml-1">
-                                        {item.data}
-                                    </span>
-                                </Link>
+                                // 팔로우 1명 이상 : 목록 경로이동
+                                item.data > 0 ? (
+                                    <Link href={`/followings/${user.username}`}>
+                                        <span>{item.title}</span>
+                                        <span className={`font-bold ml-1 ${item.data === 0 ? 'text-gray-400' : ''}`}>
+                                            {item.data}
+                                        </span>
+                                    </Link>
+                                // 팔로우 0명 : 경로이동 x
+                                ) : (
+                                    <div>
+                                        <span>{item.title}</span>
+                                        <span className={`font-bold ml-1 text-gray-400`}>
+                                            {item.data}
+                                        </span>
+                                    </div>
+                                )
+                            ) : item.title === '팔로워' ? (
+                                // 팔로워 1명 이상 : 목록 경로이동
+                                item.data > 0 ? (
+                                    <Link href={`/followers/${user.username}`}>
+                                        <span>{item.title}</span>
+                                        <span className={`font-bold ml-1 ${item.data === 0 ? 'text-gray-400' : ''}`}>
+                                            {item.data}
+                                        </span>
+                                    </Link>
+                                // 팔로워 0명 : 경로이동 x
+                                ) : (
+                                    <div>
+                                        <span>{item.title}</span>
+                                        <span className={`font-bold ml-1 text-gray-400`}>
+                                            {item.data}
+                                        </span>
+                                    </div>
+                                )
                             ) : (
-                                <Link href={`/followers/${user.username}`}>
+                                // 게시물
+                                <div>
                                     <span>{item.title}</span>
-                                    <span className="font-bold ml-1">
+                                    <span className={`font-bold ml-1 ${item.data === 0 ? 'text-gray-400' : ''}`}>
                                         {item.data}
                                     </span>
-                                </Link>
+                                </div>
                             )}
                         </li>
                     ))}
