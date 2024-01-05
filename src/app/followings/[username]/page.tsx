@@ -26,9 +26,13 @@ export default function FollowingsPage({ params: { username } }: Props) {
 
   return (
     <div>
-      {following.map((user, index) => (
-        <div key={index}>{user.username}</div>
-      ))}
+      {Array.isArray(following) && following.length > 0 ? (
+        following.map((user, index) => (
+          <div key={index}>{user.username}</div>
+        ))
+      ) : (
+        <div>팔로잉이 없습니다.</div>
+      )}
     </div>
   );
 }
