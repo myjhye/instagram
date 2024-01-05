@@ -188,6 +188,8 @@ export async function getFollowingOf(username: string) {
   
   return client.fetch
   (`*[_type == "user" && username == "${username}"][0].following[]->{
+    ...,
+    "followers": count(followers),
     username, 
   }`);
 }

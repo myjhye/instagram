@@ -17,7 +17,9 @@ export default function UserCard({user}: Props) {
             <div className="text-neutral-500">
                 <p className="text-black font-bold leading-4">{user.username}</p>
                 <p>{user.name}</p>
-                <p className="text-sm leading-4">팔로워 {`${user.followers}명`}</p>
+                <p className="text-sm leading-4">
+                    {user.followers === null ? "팔로워 0명" : `팔로워 ${user.followers}명`}
+                </p>
             </div>
         </Link>
     )
