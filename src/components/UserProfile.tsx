@@ -52,12 +52,12 @@ export default function UserProfile({user}: Props) {
                                     </span>
                                 </Link>
                             ) : (
-                                <>
+                                <Link href={`/followers/${user.username}`}>
                                     <span>{item.title}</span>
                                     <span className="font-bold ml-1">
                                         {item.data}
                                     </span>
-                                </>
+                                </Link>
                             )}
                         </li>
                     ))}
