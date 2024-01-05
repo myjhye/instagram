@@ -1,8 +1,9 @@
 'use client';
 
 import useSWR from 'swr';
-import { FollowingAndFollowers } from '@/model/user';
+import { FollowingAndFollowers, SearchUser } from '@/model/user';
 import UserCard from '@/components/UserCard';
+import { FormEvent, useState } from 'react';
 
 type Props = {
   params: {
@@ -17,9 +18,6 @@ export default function FollowingsPage({ params: { username } }: Props) {
       error 
   } = useSWR<FollowingAndFollowers>(`/api/followings/${username}`);
 
-  console.log(following);
-
-
   if (error) {
     return <div>에러 발생: {error.message}</div>;
   }
@@ -30,16 +28,16 @@ export default function FollowingsPage({ params: { username } }: Props) {
 
   //  map으로 데이터 조회 시 데이터 없는 경우 추가 필요
   return (
-    <div>
-      {Array.isArray(following) && following.length > 0 ? (
-        following.map((user, index) => (
-          <div key={user.username}>
-            <UserCard user={user} />
-          </div>
-        ))
-      ) : (
-        <div>팔로잉이 없습니다.</div>
-      )}
+    <div className='w-full mb-4'>
+        {Array.isArray(following) && following.length > 0 ? (
+          following.map((user, index) => (
+            <div key={user.username}>
+              <UserCard user={user} />
+            </div>
+          ))
+        ) : (
+          <div>팔로잉이 없습니다.</div>
+        )}
     </div>
   );
 }
