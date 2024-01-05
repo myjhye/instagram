@@ -1,6 +1,9 @@
+'use client';
+
 import { ProfileUser } from "@/model/user"
 import Avatar from "./Avatar";
 import FollowButton from "./FollowButton";
+import Link from "next/link";
 
 type Props = {
     user: ProfileUser;
@@ -41,10 +44,21 @@ export default function UserProfile({user}: Props) {
                 <ul className="my-4 flex gap-4">
                     {info.map((item, index) => (
                         <li key={index}>
-                            <span>{item.title}</span>
-                            <span className="font-bold ml-1">
-                                {item.data}
-                            </span>
+                            {item.title === '팔로우' ? (
+                                <Link href={`/followings/${user.username}`}>
+                                    <span>{item.title}</span>
+                                    <span className="font-bold ml-1">
+                                        {item.data}
+                                    </span>
+                                </Link>
+                            ) : (
+                                <>
+                                    <span>{item.title}</span>
+                                    <span className="font-bold ml-1">
+                                        {item.data}
+                                    </span>
+                                </>
+                            )}
                         </li>
                     ))}
                 </ul>
