@@ -3,7 +3,6 @@
 import useSWR from 'swr';
 import { FollowingAndFollowers, SearchUser } from '@/model/user';
 import UserCard from '@/components/UserCard';
-import { FormEvent, useState } from 'react';
 
 type Props = {
   params: {
@@ -30,7 +29,7 @@ export default function FollowingsPage({ params: { username } }: Props) {
   return (
     <div className='w-full mb-4'>
         {Array.isArray(following) && following.length > 0 ? (
-          following.map((user, index) => (
+          following.map((user) => (
             <div key={user.username}>
               <UserCard user={user} />
             </div>

@@ -30,13 +30,13 @@ export default function followerssPage({ params: { username } }: Props) {
   return (
     <div className='w-full mb-4'>
         {Array.isArray(followers) && followers.length > 0 ? (
-          followers.map((user, index) => (
+          followers.map((user) => (
             <div key={user.username}>
               <UserCard user={user} />
             </div>
           ))
         ) : (
-          <div>팔로잉이 없습니다.</div>
+          <div>팔로워가 없습니다.</div>
         )}
     </div>
   );
