@@ -193,3 +193,15 @@ export async function getFollowingOf(username: string) {
     username, 
   }`);
 }
+
+
+// 팔로워 목록 가져오기
+export async function getFollowerOf(username: string) {
+  
+  return client.fetch
+  (`*[_type == "user" && username == "${username}"][0].followers[]->{
+    ...,
+    "followers": count(followers),
+    username, 
+  }`);
+}
