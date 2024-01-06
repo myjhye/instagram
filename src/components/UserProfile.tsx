@@ -3,99 +3,79 @@
 import { ProfileUser } from "@/model/user"
 import Avatar from "./Avatar";
 import FollowButton from "./FollowButton";
-import Link from "next/link";
+import ModalPortal from "./ui/ModalPortal";
+import { useState } from "react";
+import FollowingsPage from "@/app/followings/[username]/page";
+import FollowersPage from "@/app/followers/[username]/page";
+import FollowingFollowerModal from "./FollowingFollowerModal";
 
 type Props = {
     user: ProfileUser;
 };
 
-/*
-ProfileUser
-1. name
-2. username
-3. email
-4. following
-5. followers
-6. posts
-*/
-
 export default function UserProfile({user}: Props) {
+    const [openModal, setOpenModal] = useState(false);
+    const [modalContent, setModalContent] = useState<'followers' | 'following'>('followers');
+
+    const handleModalOpen = (content: 'followers' | 'following') => {
+        setModalContent(content);
+        setOpenModal(true);
+    };
 
     const info = [
         { title: '게시물', data: user.posts },
-        { title: '팔로워', data: user.followers },
-        { title: '팔로우', data: user.following },
-    ]
+        { title: '팔로워', data: user.followers, onClick: () => handleModalOpen('followers') },
+        { title: '팔로우', data: user.following, onClick: () => handleModalOpen('following') },
+    ];
+
+    const modalTitle = modalContent === 'following' ? '팔로잉' : '팔로워';
 
     return (
-        <section className="w-full flex flex-col md:flex-row items-center justify-center py-12 border-b border-neutral-300">
-            <Avatar 
-                image={user.image} 
-                highlight
-                size='xlarge'
-            />
-            <div className="md:ml-10 basis-1/3">
-                <div className="flex flex-col items-center md:flex-row">
-                    <h1 className="text-2xl md:mr-8 my-2 md:mb-0">
-                        {user.username}
-                    </h1>
-                    <FollowButton user={user} />
+        <>
+            <section className="w-full flex flex-col md:flex-row items-center justify-center py-12 border-b border-neutral-300">
+                <Avatar 
+                    image={user.image} 
+                    highlight
+                    size='xlarge'
+                />
+                <div className="md:ml-10 basis-1/3">
+                    <div className="flex flex-col items-center md:flex-row">
+                        <h1 className="text-2xl md:mr-8 my-2 md:mb-0">
+                            {user.username}
+                        </h1>
+                        <FollowButton user={user} />
+                    </div>
+                    <ul className="my-4 flex gap-4">
+                        {info.map((item, index) => (
+                            <li key={index} onClick={item.data > 0 ? item.onClick : undefined}>
+                                <span>{item.title}</span>
+                                <span className={`font-bold ml-1 ${item.data === 0 ? 'text-gray-400' : ''}`}>
+                                    {item.data}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                    <p className="text-xl font-bold text-center md:text-start">
+                        {user.name}
+                    </p>
                 </div>
-                <ul className="my-4 flex gap-4">
-                    {info.map((item, index) => (
-                        <li key={index}>
-                            {item.title === '팔로우' ? (
-                                // 팔로우 1명 이상 : 목록 경로이동
-                                item.data > 0 ? (
-                                    <Link href={`/followings/${user.username}`}>
-                                        <span>{item.title}</span>
-                                        <span className={`font-bold ml-1 ${item.data === 0 ? 'text-gray-400' : ''}`}>
-                                            {item.data}
-                                        </span>
-                                    </Link>
-                                // 팔로우 0명 : 경로이동 x
-                                ) : (
-                                    <div>
-                                        <span>{item.title}</span>
-                                        <span className={`font-bold ml-1 text-gray-400`}>
-                                            {item.data}
-                                        </span>
-                                    </div>
-                                )
-                            ) : item.title === '팔로워' ? (
-                                // 팔로워 1명 이상 : 목록 경로이동
-                                item.data > 0 ? (
-                                    <Link href={`/followers/${user.username}`}>
-                                        <span>{item.title}</span>
-                                        <span className={`font-bold ml-1 ${item.data === 0 ? 'text-gray-400' : ''}`}>
-                                            {item.data}
-                                        </span>
-                                    </Link>
-                                // 팔로워 0명 : 경로이동 x
-                                ) : (
-                                    <div>
-                                        <span>{item.title}</span>
-                                        <span className={`font-bold ml-1 text-gray-400`}>
-                                            {item.data}
-                                        </span>
-                                    </div>
-                                )
+            </section>
+            {
+                openModal && (
+                    <ModalPortal>
+                        <FollowingFollowerModal 
+                            onClose={() => setOpenModal(false)}
+                            title={modalTitle}
+                        >
+                            {modalContent === 'following' ? (
+                                <FollowingsPage username={user.username} />
                             ) : (
-                                // 게시물
-                                <div>
-                                    <span>{item.title}</span>
-                                    <span className={`font-bold ml-1 ${item.data === 0 ? 'text-gray-400' : ''}`}>
-                                        {item.data}
-                                    </span>
-                                </div>
+                                <FollowersPage username={user.username} />
                             )}
-                        </li>
-                    ))}
-                </ul>
-                <p className="text-xl font-bold text-center md:text-start">
-                    {user.name}
-                </p>
-            </div>
-        </section>
+                        </FollowingFollowerModal>
+                    </ModalPortal>
+                )
+            }
+        </>
     )
 }

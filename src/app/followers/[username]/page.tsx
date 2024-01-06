@@ -7,17 +7,17 @@ import { FormEvent, useState } from 'react';
 import FollowingFollowerCard from '@/components/FollowingFollowerCard';
 
 type Props = {
-  params: {
-    username: string;
-  };
+  username?: string;
 };
 
-export default function followerssPage({ params: { username } }: Props) {
+export default function FollowersPage({ username }: Props) {
   
   const { 
       data: followers, 
       error 
   } = useSWR<FollowingAndFollowers>(`/api/followers/${username}`);
+
+  console.log(followers);
 
   if (error) {
     return <div>에러 발생: {error.message}</div>;

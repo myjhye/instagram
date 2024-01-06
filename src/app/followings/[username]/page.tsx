@@ -5,12 +5,10 @@ import { FollowingAndFollowers } from '@/model/user';
 import FollowingFollowerCard from '@/components/FollowingFollowerCard';
 
 type Props = {
-  params: {
-    username: string;
-  };
+  username: string;
 };
 
-export default function FollowingsPage({ params: { username } }: Props) {
+export default function FollowingsPage({ username }: Props) {
   
   const { 
       data: following, 
