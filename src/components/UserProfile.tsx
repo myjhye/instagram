@@ -57,10 +57,7 @@ export default function UserProfile({user}: Props) {
                                 >
                                     {item.title}
                                 </span>
-                                <span
-                                    onClick={item.data > 0 ? item.onClick : undefined} 
-                                    className={item.data > 0 ? 'font-bold ml-1 cursor-pointer' : 'font-bold ml-1 text-gray-400'}
-                                >
+                                <span className={item.data > 0 && (item.title === '팔로우' || item.title === '팔로워') ? 'font-bold ml-1 cursor-pointer' : 'font-bold ml-1'}>
                                     {item.data}
                                 </span>
                             </li>
