@@ -50,9 +50,17 @@ export default function UserProfile({user}: Props) {
                     </div>
                     <ul className="my-4 flex gap-4">
                         {info.map((item, index) => (
-                            <li key={index} onClick={item.data > 0 ? item.onClick : undefined}>
-                                <span>{item.title}</span>
-                                <span className={`font-bold ml-1 ${item.data === 0 ? 'text-gray-400' : ''}`}>
+                            <li key={index}>
+                                <span
+                                    onClick={item.data > 0 && (item.title === '팔로우' || item.title === '팔로워') ? item.onClick : undefined}
+                                    className={item.data > 0 && (item.title === '팔로우' || item.title === '팔로워') ? 'cursor-pointer' : ''}
+                                >
+                                    {item.title}
+                                </span>
+                                <span
+                                    onClick={item.data > 0 ? item.onClick : undefined} 
+                                    className={item.data > 0 ? 'font-bold ml-1 cursor-pointer' : 'font-bold ml-1 text-gray-400'}
+                                >
                                     {item.data}
                                 </span>
                             </li>
