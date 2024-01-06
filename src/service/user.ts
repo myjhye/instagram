@@ -188,9 +188,11 @@ export async function getFollowingOf(username: string) {
   
   return client.fetch
   (`*[_type == "user" && username == "${username}"][0].following[]->{
-    ...,
+    "id":_id,
+    "name": name,
+    "username": username,
+    "image": image,
     "followers": count(followers),
-    username, 
   }`);
 }
 
@@ -200,8 +202,10 @@ export async function getFollowerOf(username: string) {
   
   return client.fetch
   (`*[_type == "user" && username == "${username}"][0].followers[]->{
-    ...,
+    "id":_id,
+    "name": name,
+    "username": username,
+    "image": image,
     "followers": count(followers),
-    username, 
   }`);
 }

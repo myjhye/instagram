@@ -1,8 +1,8 @@
 'use client';
 
 import useSWR from 'swr';
-import { FollowingAndFollowers, SearchUser } from '@/model/user';
-import UserCard from '@/components/UserCard';
+import { FollowingAndFollowers } from '@/model/user';
+import FollowingFollowerCard from '@/components/FollowingFollowerCard';
 
 type Props = {
   params: {
@@ -16,6 +16,8 @@ export default function FollowingsPage({ params: { username } }: Props) {
       data: following, 
       error 
   } = useSWR<FollowingAndFollowers>(`/api/followings/${username}`);
+
+  console.log(following);
 
   if (error) {
     return <div>에러 발생: {error.message}</div>;
@@ -31,7 +33,7 @@ export default function FollowingsPage({ params: { username } }: Props) {
         {Array.isArray(following) && following.length > 0 ? (
           following.map((user) => (
             <div key={user.username}>
-              <UserCard user={user} />
+              <FollowingFollowerCard user={user} />
             </div>
           ))
         ) : (

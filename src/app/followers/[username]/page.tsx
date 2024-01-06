@@ -4,6 +4,7 @@ import useSWR from 'swr';
 import { FollowingAndFollowers } from '@/model/user';
 import UserCard from '@/components/UserCard';
 import { FormEvent, useState } from 'react';
+import FollowingFollowerCard from '@/components/FollowingFollowerCard';
 
 type Props = {
   params: {
@@ -32,7 +33,7 @@ export default function followerssPage({ params: { username } }: Props) {
         {Array.isArray(followers) && followers.length > 0 ? (
           followers.map((user) => (
             <div key={user.username}>
-              <UserCard user={user} />
+              <FollowingFollowerCard user={user} />
             </div>
           ))
         ) : (
