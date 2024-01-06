@@ -41,7 +41,7 @@ export default {
             type: 'array',
             of: [
                 {
-                    // 각 댓글은 '작성자', '댓글 내용'을 포함하는 문서 형태
+                    // 각 댓글은 '작성자', '댓글 내용', '작성 시간'을 포함하는 문서 형태
                     title: 'Comment',
                     name: 'comment',
                     type: 'document',
@@ -58,6 +58,11 @@ export default {
                             title: 'Comment',
                             name: 'comment',
                             type: 'string',
+                        },
+                        {
+                            title: 'Created At',
+                            name: 'createdAt',
+                            type: 'datetime',
                         }
                     ]
                 }

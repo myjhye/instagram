@@ -75,7 +75,12 @@ export async function getPost(id: string) {
       "userImage": author->image,
       "image": photo,
       "likes": likes[]->username,
-      comments[]{comment, "username": author->username, "image": author->image},
+      comments[]{
+        comment, 
+        "username": author->username, 
+        "image": author->image,
+        "createdAt": createdAt
+      },
       "id":_id,
       "createdAt":_creatdAt
     }`
@@ -234,7 +239,26 @@ export async function dislikePost(postId: string, userId: string) {
 
 /*
 .patch(postId)
-- post 문서 업데이트
+- post 문서 업데이트export async function getPost(id: string) {
+  return client
+    .fetch(
+      `*[_type == "post" && _id == "${id}"][0]{
+      ...,
+      "username": author->username,
+      "userImage": author->image,
+      "image": photo,
+      "likes": likes[]->username,
+      comments[]{
+        comment, 
+        "username": author->username, 
+        "image": author->image
+      },
+      "id":_id,
+      "createdAt":_creatdAt
+    }`
+    )
+    .then((post) => ({ ...post, image: urlFor(post.image) }));
+}
 
 .append('comments', [{ comment, author: { _ref: userId, _type: 'reference' }}])
 - 'comments' 필드에 다음 추가
@@ -247,6 +271,8 @@ export async function dislikePost(postId: string, userId: string) {
 
 // 게시물에 댓글 추가
 export async function addComment(postId: string, userId: string, comment: string) {
+
+  const timestamp = new Date().toISOString();
   
   return client
     .patch(postId)
@@ -258,6 +284,7 @@ export async function addComment(postId: string, userId: string, comment: string
           _ref: userId, 
           _type: 'reference'
         },
+        createdAt: timestamp,
       },
     ])
     .commit({ autoGenerateArrayKeys: true });
@@ -278,14 +305,20 @@ export async function createPost(userId: string, text: string, file: Blob) {
   .then(result => {
     return client.create({
       _type: 'post',
-      author: {_ref: userId},
-      photo: {asset: {_ref: result.document._id}},
+      author: {
+        _ref: userId
+      },
+      photo: {
+        asset: {
+          _ref: result.document._id
+        }
+      },
       comments: [{
         comment: text,
         author: {
           _ref: userId, 
           _type: 'reference'
-        }
+        },
       }],
       likes: [],
     }, {autoGenerateArrayKeys: true})

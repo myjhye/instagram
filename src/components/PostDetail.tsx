@@ -4,6 +4,8 @@ import PostUserAvatar from "./PostUserAvatar";
 import ActionBar from "./ActionBar";
 import Avatar from "./Avatar";
 import useFullPost from "@/hooks/post";
+import useMe from "@/hooks/me";
+import { parseDate } from "@/util/date";
 
 /*
 ** PostDetail 컴포넌트에서 데이터를 서버에서 가져와 화면에 표시되기까지 과정
@@ -27,6 +29,13 @@ export default function PostDetail({post}: Props) {
         post: data, 
         postComment
     } = useFullPost(post.id);
+
+    // 로그인한 사용자
+    const {
+        user: loggedInUser
+    } = useMe();
+
+    console.log(data);
 
     // 포스트 댓글
     const comments = data?.comments;
@@ -58,18 +67,31 @@ export default function PostDetail({post}: Props) {
                     {comments && comments.map((comments, index) => (
                         <li 
                             key={index}
-                            className="flex items-center mb-1"
+                            className="group flex items-center mb-1"
                         >
-                            {/* 댓글 작성자 아바타 */}
-                            <Avatar 
-                                image={comments.image}
-                                size='small'
-                                highlight={comments.username === post.username} 
-                            />
-                            {/* 댓글 작성자 유저명 & 댓글 내용 */}
-                            <div className="ml-2">
-                                <span className="font-bold mr-2">{comments.username}</span>
-                                <span>{comments.comment}</span>
+                            <div className="flex items-center mb-1">
+                                {/* 댓글 작성자 아바타 */}
+                                <Avatar 
+                                    image={comments.image}
+                                    size='small'
+                                    highlight={comments.username === post.username} 
+                                />
+                                {/* 댓글 작성자 유저명 & 댓글 내용 */}
+                                <div className="ml-2">
+                                    <span className="font-bold mr-2">{comments.username}</span>
+                                    <span>{comments.comment}</span>
+                                </div>
+                                {loggedInUser &&  loggedInUser.username === comments.username && (
+                                    <button
+                                        onClick={() => {}}
+                                        className="ml-auto text-red-500 opacity-0 group-hover:opacity-100"
+                                    >
+                                        삭제
+                                    </button>
+                                )}
+                            </div>
+                            <div className="ml-2 text-sm text-gray-500">
+                                {parseDate(comments.createdAt)}
                             </div>
                         </li>
                     ))}

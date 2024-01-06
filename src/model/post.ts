@@ -6,6 +6,7 @@ export type Comment = {
     username: string;
     // 댓글 작성자의 프로필 이미지 url
     image?: string | undefined;
+    createdAt: string;
 };
 
 export type SimplePost = Omit<FullPost, 'comments'> & {
