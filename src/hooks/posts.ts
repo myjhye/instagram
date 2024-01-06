@@ -3,6 +3,9 @@ import { useCallback } from 'react';
 import useSWR from 'swr';
 
 /*
+posts.ts
+- 게시물 전체 데이터 조회 (홈)
+
 updateLike 함수
 - 클라이언트에서 서버에 요청 보내는 역할 : 좋아요 추가/제거 요청
 - 서버에 데이터를 업데이트 하고 업데이트 된 결과 받아옴

@@ -3,6 +3,9 @@ import { useCallback } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 
 /*
+posts.ts
+- 게시물 상세 데이터 조회 (단일)
+
 커스텀 훅
 - api 호출
 - 컴포넌트 간에 데이터 로직 재사용
