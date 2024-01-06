@@ -1,6 +1,9 @@
-import { format } from "timeago.js";
+import { format, register } from "timeago.js";
+import ko from 'timeago.js/lib/lang/ko';
 
-export function parseDate(date: string) {
+register('ko', ko);
 
-    return format(date);
+export function parseDate(date: string, locale = 'ko') {
+
+    return format(date, locale);
 }
