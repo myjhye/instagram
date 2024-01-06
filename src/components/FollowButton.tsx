@@ -23,7 +23,7 @@ export default function FollowButton({user}: Props) {
     const following = loggedInUser && loggedInUser.following.find((item) => item.username === user.username);
 
     // 현재 로그인된 사용자가 팔로우 중이면 -> Unfollow, 언팔로우 중이면 Follow
-    const text = following ? 'Unfollow' : 'Follow';
+    const text = following ? 'unfollow' : 'follow';
 
     const handleFollow = () => {
         toggleFollow(user.id, !following);
@@ -35,7 +35,7 @@ export default function FollowButton({user}: Props) {
                 <Button 
                     text={text}
                     onClick={handleFollow}
-                    red={text === 'Unfollow'}
+                    red={text === 'unfollow'}
                 />
             )}
         </>

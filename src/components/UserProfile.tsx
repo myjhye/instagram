@@ -14,9 +14,11 @@ type Props = {
 };
 
 export default function UserProfile({user}: Props) {
-    const [openModal, setOpenModal] = useState(false);
-    const [modalContent, setModalContent] = useState<'followers' | 'following'>('followers');
 
+    const [openModal, setOpenModal] = useState(false);
+    // 모달에 표시될 내용이 팔로워 또는 팔로잉인지 결정
+    const [modalContent, setModalContent] = useState<'followers' | 'following'>('followers');
+    // 모달 열 때 : modalContent 상태를 결정 (내용이 팔로워 또는 팔로잉인지)
     const handleModalOpen = (content: 'followers' | 'following') => {
         setModalContent(content);
         setOpenModal(true);
@@ -28,6 +30,7 @@ export default function UserProfile({user}: Props) {
         { title: '팔로우', data: user.following, onClick: () => handleModalOpen('following') },
     ];
 
+    // 모달 타이틀 : 팔로워 또는 팔로잉 (상단 표시)
     const modalTitle = modalContent === 'following' ? '팔로잉' : '팔로워';
 
     return (
@@ -67,6 +70,7 @@ export default function UserProfile({user}: Props) {
                             onClose={() => setOpenModal(false)}
                             title={modalTitle}
                         >
+                            {/* modalContent 상태에 따라 다른 페이지 (팔로잉 또는 팔로워) 표시 */}
                             {modalContent === 'following' ? (
                                 <FollowingsPage username={user.username} />
                             ) : (

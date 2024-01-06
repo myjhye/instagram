@@ -107,7 +107,7 @@ export async function getUserForProfile(username: string) {
   
   return client
     .fetch(
-      `*[_type=="user" && username== "${username}"][0]{
+      `*[_type =="user" && username=="${username}"][0]{
       ...,
       "id":_id,
       "following": count(following),
@@ -183,11 +183,11 @@ export async function unfollow(myId: string, targetId: string) {
 }
 
 
-// 팔로잉 목록 가져오기
+// 팔로잉 목록 가져오기 **
 export async function getFollowingOf(username: string) {
   
   return client.fetch
-  (`*[_type == "user" && username == "${username}"][0].following[]->{
+  (`*[_type=="user" && username== "${username}"][0].following[]->{
     "id":_id,
     "name": name,
     "username": username,
@@ -201,7 +201,7 @@ export async function getFollowingOf(username: string) {
 export async function getFollowerOf(username: string) {
   
   return client.fetch
-  (`*[_type == "user" && username == "${username}"][0].followers[]->{
+  (`*[_type == "user" && username== "${username}"][0].followers[]->{
     "id":_id,
     "name": name,
     "username": username,
